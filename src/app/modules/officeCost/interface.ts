@@ -1,3 +1,13 @@
+
+export const officeCost_fields_constant = [
+  "cost_name",
+  "amount",
+  "description",
+  "createdAt",
+  "updatedAt",
+];
+
+
 export interface IOfficeCost {
     id?: string;
     cost_name: string;
@@ -6,3 +16,5 @@ export interface IOfficeCost {
     createdAt?: Date;
     updatedAt?: Date;
   }
+
+

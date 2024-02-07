@@ -2,6 +2,8 @@ import httpStatus from "http-status";
 import sendResponse from "../../../shared/sendResponse";
 import { RequestHandler } from "express";
 import { accessoryService } from "./service";
+import pick from "../../../shared/pick";
+import { paginationOptionFields } from "../../../common/paginationOptions";
 
 const createAccessoryController: RequestHandler = async (req, res, next) => {
     try {
@@ -19,28 +21,24 @@ const createAccessoryController: RequestHandler = async (req, res, next) => {
   const getAllAccessoryController: RequestHandler = async (req, res, next) => {
     try {
       const filterOptions = pick(req.query, [
-        'registrationNo',
-        'tax',
-        'seatCapacity',
-        'vehicleType',
-        "color",
-        "price",
-        'brand',
-        'model',
-        'fuelType',
+        'accessory_name',
+        'quantity ',
+        'purchase_data',
+        'amount  ',
+        "expire_data ",
         'createdAt',
         'updatedAt',
       ]);
       const paginationOptions = pick(req.query, paginationOptionFields);
   
-      const response = await vehicleService.getAllVehicleService(
+      const response = await accessoryService.getAllAccessoryService(
         paginationOptions,
         filterOptions
       );
       return sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'vehicleProfile retrieved successfully',
+        message: 'Accessory retrieved successfully',
         data: response,
       });
     } catch (err) {
@@ -54,11 +52,11 @@ const createAccessoryController: RequestHandler = async (req, res, next) => {
   ) => {
     try {
       const id = await req?.params?.id;
-      const result = await vehicleService.getSingleVehicleService(id);
+      const result = await accessoryService.getSingleAccessoryService(id);
       return sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Single Vehicle get successful',
+        message: 'Single accessory get successful',
         data: result,
       });
     } catch (err) {
@@ -77,11 +75,11 @@ const createAccessoryController: RequestHandler = async (req, res, next) => {
       //   });
       // }
       const id = req?.params?.id;
-      const result = await vehicleService.DeletevehicleService(id);
+      const result = await accessoryService.DeleteAccessoryService(id);
       return sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Vehicle deleted successful',
+        message: 'Accessory deleted successful',
         data: result,
       });
     } catch (err) {
@@ -100,14 +98,14 @@ const createAccessoryController: RequestHandler = async (req, res, next) => {
       // }
       const id = req?.params?.id;
       const data = req.body;
-      const result = await vehicleService.updateVehicleService(
+      const result = await accessoryService.updateAccessoryService(
         data,
         id
       );
       return sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Vehicle uodated successful',
+        message: 'Accessory uodated successful',
         data: result,
       });
     } catch (err) {
@@ -121,9 +119,5 @@ const createAccessoryController: RequestHandler = async (req, res, next) => {
     deleteAccessoryController,
     getSingleAccessoryController,
     getAllAccessoryController
-    // createVehicleController,
-    // getAllVehicleController,
-    // deleteVehicleController,
-    // updateVehicleController,
-    // getSingleVehicleController,
+ 
   };

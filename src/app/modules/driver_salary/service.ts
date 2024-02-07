@@ -3,22 +3,22 @@ import ApiError from "../../../error/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IFilters, IPaginationOptions } from "../../../interfaces/paginationOptions";
-import { ITripResponse, trip_fields_constant } from "./interface";
+import { IDriverSalaryResponse, driver_salary_fields_constant } from "./interface";
 
 
 const prisma = new PrismaClient()
 
-const createService = async (payload: any) => {
-  const response = await prisma.trip.create({
+const createDriverSalaryService = async (payload: any) => {
+  const response = await prisma.driverSalary.create({
     data: payload
   })
   return response
 }
 
-const getAllTripService = async (
+const getAllDriverSalaryService = async (
   paginatinOptions: IPaginationOptions,
   filterOptions: IFilters
-): Promise<IGenericResponse<ITripResponse[]>> => {
+): Promise<IGenericResponse<IDriverSalaryResponse[]>> => {
 
   const { searchTerm, ...filterData } = filterOptions;
   const { limit, page, skip } =
@@ -29,7 +29,7 @@ const getAllTripService = async (
   //searching code
   if (searchTerm) {
     andConditions.push({
-      OR: trip_fields_constant.map(field => {
+      OR: driver_salary_fields_constant.map(field => {
         return {
           [field]: {
             contains: searchTerm,
@@ -51,10 +51,10 @@ const getAllTripService = async (
     });
   }
 
-  const whereCondition: Prisma.TripWhereInput =
+  const whereCondition: Prisma.driverSalaryWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const response = await prisma.trip.findMany({
+  const response = await prisma.driverSalary.findMany({
     where: whereCondition,
     skip,
     take: limit,
@@ -63,45 +63,31 @@ const getAllTripService = async (
         ? {
           [paginatinOptions.sortBy]: paginatinOptions.sortOrder
         }
-        : { createAt: 'asc' },
+        : { createdAt: 'asc' },
     select: {
       id: true,
-      start_location: true,
-      end_location: true,
-      start_time: true,
-      end_time: true,
-      passenger_count: true,
-      trip_rent: true,
-      vehicle_id: true,
-      vehicle: {
-        select: {
-          id: true,
-          brand: true,
-          color: true,
-          fuelType: true,
-          mileage: true,
-          model: true,
-          vehicleType: true
-        }
-      },
       driver_id: true,
+      amount: true,
+      currency: true,
+      description: true,
+      status: true,
       driver: {
         select: {
-          id: true,
+          id:true,
           name: true,
           email: true,
-          avatar: true,
+          join_date:true,
           address: true,
-          phone: true,
-          experience: true
-
+          avatar: true,
+          experience: true,
+          phone: true
         }
       },
-      costs: true
-    }
-
+      createdAt: true,
+      updatedAt: true,
+    },
   })
-  const total = await prisma.trip.count();
+  const total = await prisma.driverSalary.count();
 
   return {
     meta: {
@@ -114,8 +100,8 @@ const getAllTripService = async (
 
 }
 
-const singleTripSerivce = async (id: string) => {
-  const ifExist = await prisma.trip.findFirst({
+const singleDriverSalarySerivce = async (id: string) => {
+  const ifExist = await prisma.driverSalary.findFirst({
     where: {
       id: id
     }
@@ -123,7 +109,7 @@ const singleTripSerivce = async (id: string) => {
   if (ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
-  const response = await prisma.trip.findFirst({
+  const response = await prisma.driverSalary.findFirst({
     where: {
       id: id
     }
@@ -131,8 +117,8 @@ const singleTripSerivce = async (id: string) => {
   return response
 }
 
-const updateTripService = async (id: string, payload: any) => {
-  const ifExist = await prisma.trip.findFirst({
+const updateDriverSalaryService = async (id: string, payload: any) => {
+  const ifExist = await prisma.driverSalary.findFirst({
     where: {
       id: id
     }
@@ -140,7 +126,7 @@ const updateTripService = async (id: string, payload: any) => {
   if (ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
-  const response = await prisma.trip.update({
+  const response = await prisma.driverSalary.update({
     where: {
       id: id
     },
@@ -149,8 +135,8 @@ const updateTripService = async (id: string, payload: any) => {
   return response
 }
 
-const deleteTripService = async (id: string) => {
-  const ifExist = await prisma.trip.findFirst({
+const deleteDriverSalaryService = async (id: string) => {
+  const ifExist = await prisma.driverSalary.findFirst({
     where: {
       id: id
     }
@@ -158,7 +144,7 @@ const deleteTripService = async (id: string) => {
   if (ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
-  const response = await prisma.trip.delete({
+  const response = await prisma.driverSalary.delete({
     where: {
       id: id
     }
@@ -167,13 +153,10 @@ const deleteTripService = async (id: string) => {
 }
 
 
-
-
-
-export const TripServices = {
-  createService,
-  getAllTripService,
-  singleTripSerivce,
-  updateTripService,
-  deleteTripService
+export const DriverSalaryServices = {
+  createDriverSalaryService,
+  getAllDriverSalaryService,
+  singleDriverSalarySerivce,
+  updateDriverSalaryService,
+  deleteDriverSalaryService
 }

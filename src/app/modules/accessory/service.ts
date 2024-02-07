@@ -58,10 +58,10 @@ const getAllAccessoryService = async (
           ? {
               [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
             }
-          : { createAt: 'asc' },
-      select: {
+          : { createdAt: 'asc' },
+      // select: {
 
-      },
+      // },
     });
     const total = await prisma.accessory.count();
     return {

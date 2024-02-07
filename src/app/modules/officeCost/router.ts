@@ -4,14 +4,16 @@ import express from 'express'
 import validateRequest from '../../middlewares/validateUser';
 // import { vehicleValidation} from './validation';
 import Auth from '../../middlewares/Auth';
+import { OfficeZodValidation } from './validation';
+import { officeCostController } from './controller';
 // import { authControllers } from './controller'
 
 const router = express.Router()
 
-// router.post('/',validateRequest(vehicleValidation.createVehicle),vehicleController.createVehicleController )
-// router.get('/',vehicleController.getAllVehicleController)
-// router.get('/:id',vehicleController.getSingleVehicleController)
-// router.delete('/:id',vehicleController.deleteVehicleController)
-// router.patch('/:id',vehicleController.updateVehicleController)
+router.post('/',validateRequest(OfficeZodValidation.OfficeCostZodSchema),officeCostController.createOfficeCostController )
+router.get('/',officeCostController.getAllOfficeCostController)
+router.get('/:id',officeCostController.getSingleOfficeCostController)
+router.delete('/:id',officeCostController.deleteOfficeCostController)
+router.patch('/:id',officeCostController.updateOfficeCostController)
 
 export const officeCosRouter = router

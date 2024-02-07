@@ -104,8 +104,8 @@ model TripCost {
   passengerName String
   phone         String
   trip_period   String
-  tollCost      Int?
-  parkingCost   Int?
+  tollCost      Float?
+  parkingCost   Float?
   startLocation String
   description   String?
   trip_id       String   @db.ObjectId
@@ -128,17 +128,21 @@ model OfficeCost {
   @@map("office_costs")
 }
 
-// accessory
+// accessory added
 model Accessory {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
   accessory_name String
-  amount         Int
+  quantity       Int
+  purchase_data  String
+expire_date   String?
+  amount         Float
   description    String? // Optional description of the accessory
-  createdAt      DateTime @default(now()) // Timestamp when the record was created
-  updatedAt      DateTime @updatedAt // Timestamp when the record was last updated
+  createdAt      DateTime  @default(now()) // Timestamp when the record was created
+  updatedAt      DateTime  @updatedAt // Timestamp when the record was last updated
 
   @@map("accessories")
 }
+
 
 // salary
 model driverSalary {
@@ -154,6 +158,8 @@ model driverSalary {
 
   @@map("driver_salaries")
 }
+
+
 
 // Cost model
 model Cost {

@@ -4,14 +4,17 @@ import express from 'express'
 import validateRequest from '../../middlewares/validateUser';
 // import { vehicleValidation} from './validation';
 import Auth from '../../middlewares/Auth';
+import { accessoryZodValidation } from './validation';
+import { accessoryController } from './controller';
 // import { authControllers } from './controller'
 
 const router = express.Router()
 
-// router.post('/',validateRequest(vehicleValidation.createVehicle),vehicleController.createVehicleController )
-// router.get('/',vehicleController.getAllVehicleController)
-// router.get('/:id',vehicleController.getSingleVehicleController)
-// router.delete('/:id',vehicleController.deleteVehicleController)
-// router.patch('/:id',vehicleController.updateVehicleController)
+router.post('/',validateRequest(accessoryZodValidation.AccessoryZodSchema),accessoryController.createAccessoryController )
+
+router.get('/',accessoryController.getAllAccessoryController)
+router.get('/:id',accessoryController.getSingleAccessoryController)
+router.delete('/:id',accessoryController.deleteAccessoryController)
+router.patch('/:id',accessoryController.updateAccessoryController)
 
 export const accessoryRouter = router

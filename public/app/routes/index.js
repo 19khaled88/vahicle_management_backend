@@ -9,6 +9,8 @@ const driver_routes_1 = require("../modules/drivers/driver.routes");
 const route_2 = require("../modules/maintenance/route");
 const route_3 = require("../modules/vehicle/route");
 const route_4 = require("../modules/trips/route");
+const route_5 = require("../modules/trips_cost/route");
+const route_6 = require("../modules/driver_salary/route");
 const rootRoute = express_1.default.Router();
 const ModuleRoute = [
     {
@@ -28,8 +30,16 @@ const ModuleRoute = [
         routes: driver_routes_1.DriverRoutes,
     },
     {
+        path: "/driver-salary",
+        routes: route_6.DriverSalaryRouter,
+    },
+    {
         path: '/trip',
         routes: route_4.TripRouter
+    },
+    {
+        path: '/trip-cost',
+        routes: route_5.TripCostRouter
     }
 ];
 ModuleRoute.forEach(routes => rootRoute.use(routes.path, routes.routes));
