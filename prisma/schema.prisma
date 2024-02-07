@@ -104,8 +104,8 @@ model TripCost {
   passengerName String
   phone         String
   trip_period   String
-  tollCost      Int?
-  parkingCost   Int?
+  tollCost      Float?
+  parkingCost   Float?
   startLocation String
   description   String?
   trip_id       String   @db.ObjectId

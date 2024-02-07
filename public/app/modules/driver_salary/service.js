@@ -107,7 +107,7 @@ const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0,
             costs: true
         }
     });
-    const total = yield prisma.trip.count();
+    const total = yield prisma.user.count();
     return {
         meta: {
             limit,
