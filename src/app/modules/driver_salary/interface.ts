@@ -1,32 +1,28 @@
-export const trip_fields_constant = ['vehicle_id', 'user_id', 'start_location', 'end_location', 'start_time', 'end_time']
+import { SalaryProcess } from "@prisma/client";
 
+export const driver_salary_fields_constant = ['driver_id', 'status']
 
-type Cost = {
-        id: string,
-        amount: number
-        expense_category: string
-        inventory_id: string
-        description: string
-        
-        trip_id: string
-
+type Driver = {
+        id: string;
+        join_date: Date;
+        name: string,
+        email: string,
+        address: string,
+        avatar: string,
+        experience: string,
+        phone: string
 }
 
+export type IDriverSalaryResponse = {
+        id: string;
+        driver_id: string;
+        amount: number;
+        currency: string;
+        description: string | null;
+        status: SalaryProcess; // Make sure `SalaryProcess` is properly imported
+        driver: Driver;
+        createdAt: Date;
+        updatedAt: Date;
 
-export type ITripResponse = {
-        id: string,
-        start_location: String,
-        end_location: String,
-        start_time: Date,
-        end_time: Date,
-        passenger_count: number,
-        trip_rent: number,
-       
-        createAt?: string,
-        updatedAt?: string,
 
-        //relationships 
-        vehicle_id: string,
-        driver_id: string 
-        costs?: Cost[]
 }

@@ -7,6 +7,7 @@ import { MaintenanceRouter } from '../modules/maintenance/route'
 import { vehicleRouter } from '../modules/vehicle/route'
 import { TripRouter } from '../modules/trips/route';
 import { TripCostRouter } from '../modules/trips_cost/route';
+import { DriverSalaryRouter } from '../modules/driver_salary/route';
 const rootRoute = express.Router()
 
 
@@ -27,6 +28,10 @@ const ModuleRoute = [
     {
         path: "/driver",
         routes: DriverRoutes,
+    },
+    {
+        path: "/driver-salary",
+        routes: DriverSalaryRouter,
     },
     {
         path:'/trip',
