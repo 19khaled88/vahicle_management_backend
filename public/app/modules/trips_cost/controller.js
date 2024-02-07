@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tripCostControllers = void 0;
-const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
-const pick_1 = __importDefault(require("../../../shared/pick"));
 const paginationOptions_1 = require("../../../common/paginationOptions");
+const pick_1 = __importDefault(require("../../../shared/pick"));
+const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const service_1 = require("./service");
 const createCostController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -34,7 +34,7 @@ const createCostController = (req, res, next) => __awaiter(void 0, void 0, void 
 });
 const getAllCostController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const filterOptions = (0, pick_1.default)(req.query, ['vehicle_id', 'user_id', 'start_location', 'end_location', 'start_time', 'end_time']);
+        const filterOptions = (0, pick_1.default)(req.query, ['passengerName', 'phone', 'trip_id']);
         const paginationOptions = (0, pick_1.default)(req.query, paginationOptions_1.paginationOptionFields);
         const response = yield service_1.TripCostServices.getAllTripCostService(paginationOptions, filterOptions);
         (0, sendResponse_1.default)(res, {
