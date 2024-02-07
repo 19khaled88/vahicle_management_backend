@@ -143,7 +143,7 @@ model driverSalary {
   @@map("driver_salaries")
 }
 
-// accessory
+// accessory added
 model Accessory {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   accessory_name String
