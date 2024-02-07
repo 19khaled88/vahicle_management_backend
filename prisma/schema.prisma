@@ -128,6 +128,18 @@ model OfficeCost {
   @@map("office_costs")
 }
 
+// accessory
+model Accessory {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  accessory_name String
+  amount         Int
+  description    String? // Optional description of the accessory
+  createdAt      DateTime @default(now()) // Timestamp when the record was created
+  updatedAt      DateTime @updatedAt // Timestamp when the record was last updated
+
+  @@map("accessories")
+}
+
 // salary
 model driverSalary {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
@@ -141,18 +153,6 @@ model driverSalary {
   updatedAt   DateTime      @updatedAt // Timestamp when the record was last updated
 
   @@map("driver_salaries")
-}
-
-// accessory
-model Accessory {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  accessory_name String
-  amount         Int
-  description    String? // Optional description of the accessory
-  createdAt      DateTime @default(now()) // Timestamp when the record was created
-  updatedAt      DateTime @updatedAt // Timestamp when the record was last updated
-
-  @@map("accessories")
 }
 
 // Cost model
