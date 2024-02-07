@@ -12,19 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tripControllers = void 0;
+exports.DriverSalaryControllers = void 0;
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const pick_1 = __importDefault(require("../../../shared/pick"));
 const paginationOptions_1 = require("../../../common/paginationOptions");
 const service_1 = require("./service");
-const createController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createDriverSalaryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield service_1.TripServices.createService(req.body);
+        const response = yield service_1.DriverSalaryServices.createDriverSalaryService(req.body);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
-            message: 'New trip created successfully',
+            message: 'Driver salary created successfully',
             data: response
         });
     }
@@ -32,15 +32,15 @@ const createController = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next(error);
     }
 });
-const getAllController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDriverSalaryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const filterOptions = (0, pick_1.default)(req.query, ['vehicle_id', 'user_id', 'start_location', 'end_location', 'start_time', 'end_time']);
+        const filterOptions = (0, pick_1.default)(req.query, ['driver_id', 'status']);
         const paginationOptions = (0, pick_1.default)(req.query, paginationOptions_1.paginationOptionFields);
-        const response = yield service_1.TripServices.getAllTripService(paginationOptions, filterOptions);
+        const response = yield service_1.DriverSalaryServices.getAllDriverSalaryService(paginationOptions, filterOptions);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
-            message: 'All trips retrieved successfully',
+            message: 'Driver salaries retrieved successfully',
             data: response
         });
     }
@@ -48,13 +48,13 @@ const getAllController = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next(error);
     }
 });
-const singleTripController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const singleDriverSalaryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield service_1.TripServices.singleTripSerivce(req.params.id);
+        const response = yield service_1.DriverSalaryServices.singleDriverSalarySerivce(req.params.id);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
-            message: 'Single trip retrieved successfully',
+            message: 'Driver salary retrieved successfully',
             data: response
         });
     }
@@ -62,13 +62,13 @@ const singleTripController = (req, res, next) => __awaiter(void 0, void 0, void 
         next(error);
     }
 });
-const deleteTripController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteDriverSalaryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield service_1.TripServices.deleteTripService(req.params.id);
+        const response = yield service_1.DriverSalaryServices.deleteDriverSalaryService(req.params.id);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
-            message: 'Trip deleted successfully',
+            message: 'Driver salary deleted successfully',
             data: response
         });
     }
@@ -76,13 +76,13 @@ const deleteTripController = (req, res, next) => __awaiter(void 0, void 0, void 
         next(error);
     }
 });
-const updateTripController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const updateDriverSalaryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield service_1.TripServices.updateTripService(req.params.id, req.body);
+        const response = yield service_1.DriverSalaryServices.updateDriverSalaryService(req.params.id, req.body);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
-            message: 'Trip updated successfully',
+            message: 'Driver salary updated successfully',
             data: response
         });
     }
@@ -90,10 +90,10 @@ const updateTripController = (req, res, next) => __awaiter(void 0, void 0, void 
         next(error);
     }
 });
-exports.tripControllers = {
-    createController,
-    getAllController,
-    singleTripController,
-    deleteTripController,
-    updateTripController
+exports.DriverSalaryControllers = {
+    createDriverSalaryController,
+    getAllDriverSalaryController,
+    singleDriverSalaryController,
+    deleteDriverSalaryController,
+    updateDriverSalaryController
 };

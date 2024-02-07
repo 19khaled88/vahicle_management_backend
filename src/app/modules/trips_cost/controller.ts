@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express"
 
-import sendResponse from "../../../shared/sendResponse"
 import httpStatus from "http-status"
-import pick from "../../../shared/pick"
 import { paginationOptionFields } from "../../../common/paginationOptions"
+import pick from "../../../shared/pick"
+import sendResponse from "../../../shared/sendResponse"
 import { TripCostServices } from "./service"
 
 
@@ -23,7 +23,7 @@ const createCostController = async (req: Request, res: Response, next: NextFunct
 
 const getAllCostController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const filterOptions = pick(req.query, ['vehicle_id','user_id','start_location','end_location','start_time','end_time'])
+        const filterOptions = pick(req.query, ['passengerName', 'phone', 'trip_id'])
         const paginationOptions = pick(req.query, paginationOptionFields)
         const response = await TripCostServices.getAllTripCostService(paginationOptions,filterOptions)
         sendResponse(res, {

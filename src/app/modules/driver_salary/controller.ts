@@ -4,16 +4,16 @@ import sendResponse from "../../../shared/sendResponse"
 import httpStatus from "http-status"
 import pick from "../../../shared/pick"
 import { paginationOptionFields } from "../../../common/paginationOptions"
-import { TripServices } from "./service"
+import { DriverSalaryServices } from "./service"
 
 
-const createController = async (req: Request, res: Response, next: NextFunction) => {
+const createDriverSalaryController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await TripServices.createService(req.body)
+        const response = await DriverSalaryServices.createDriverSalaryService(req.body)
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'New trip created successfully',
+            message: 'Driver salary created successfully',
             data: response
         })
     } catch (error) {
@@ -21,15 +21,15 @@ const createController = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
-const getAllController = async (req: Request, res: Response, next: NextFunction) => {
+const getAllDriverSalaryController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const filterOptions = pick(req.query, ['vehicle_id','user_id','start_location','end_location','start_time','end_time'])
+        const filterOptions = pick(req.query, ['driver_id', 'status'])
         const paginationOptions = pick(req.query, paginationOptionFields)
-        const response = await TripServices.getAllTripService(paginationOptions,filterOptions)
+        const response = await DriverSalaryServices.getAllDriverSalaryService(paginationOptions,filterOptions)
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'All trips retrieved successfully',
+            message: 'Driver salaries retrieved successfully',
             data: response
         })
     } catch (error) {
@@ -37,13 +37,13 @@ const getAllController = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
-const singleTripController = async (req: Request, res: Response, next: NextFunction) => {
+const singleDriverSalaryController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await TripServices.singleTripSerivce(req.params.id)
+        const response = await DriverSalaryServices.singleDriverSalarySerivce(req.params.id)
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'Single trip retrieved successfully',
+            message: 'Driver salary retrieved successfully',
             data: response
         })
     } catch (error) {
@@ -51,13 +51,13 @@ const singleTripController = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-const deleteTripController = async (req: Request, res: Response, next: NextFunction) => {
+const deleteDriverSalaryController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await TripServices.deleteTripService(req.params.id)
+        const response = await DriverSalaryServices.deleteDriverSalaryService(req.params.id)
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'Trip deleted successfully',
+            message: 'Driver salary deleted successfully',
             data: response
         })
     } catch (error) {
@@ -65,13 +65,13 @@ const deleteTripController = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-const updateTripController = async (req: Request, res: Response, next: NextFunction) => {
+const updateDriverSalaryController = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const response = await TripServices.updateTripService(req.params.id, req.body)
+        const response = await DriverSalaryServices.updateDriverSalaryService(req.params.id, req.body)
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'Trip updated successfully',
+            message: 'Driver salary updated successfully',
             data: response
         })
     } catch (error) {
@@ -81,10 +81,10 @@ const updateTripController = async (req: Request, res: Response, next: NextFunct
 
 
 
-export const tripControllers = {
-    createController,
-    getAllController,
-    singleTripController,
-    deleteTripController,
-    updateTripController
+export const DriverSalaryControllers = {
+    createDriverSalaryController,
+    getAllDriverSalaryController,
+    singleDriverSalaryController,
+    deleteDriverSalaryController,
+    updateDriverSalaryController
 }
