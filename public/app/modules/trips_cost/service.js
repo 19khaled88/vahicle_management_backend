@@ -23,26 +23,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TripServices = void 0;
+exports.TripCostServices = void 0;
 const client_1 = require("@prisma/client");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const interface_1 = require("./interface");
 const prisma = new client_1.PrismaClient();
-const createService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield prisma.trip.create({
+const createCostService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield prisma.tripCost.create({
         data: payload
     });
     return response;
 });
-const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllTripCostService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
     const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginatinOptions);
     const andConditions = [];
     //searching code
     if (searchTerm) {
         andConditions.push({
-            OR: interface_1.trip_fields_constant.map(field => {
+            OR: interface_1.trip_cost_fields_constant.map(field => {
                 return {
                     [field]: {
                         contains: searchTerm,
@@ -63,7 +63,7 @@ const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0,
         });
     }
     const whereCondition = andConditions.length > 0 ? { AND: andConditions } : {};
-    const response = yield prisma.trip.findMany({
+    const response = yield prisma.tripCost.findMany({
         where: whereCondition,
         skip,
         take: limit,
@@ -71,43 +71,31 @@ const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0,
             ? {
                 [paginatinOptions.sortBy]: paginatinOptions.sortOrder
             }
-            : { createAt: 'asc' },
+            : { createdAt: 'asc' },
         select: {
             id: true,
-            start_location: true,
-            end_location: true,
-            start_time: true,
-            end_time: true,
-            passenger_count: true,
-            trip_rent: true,
-            vehicle_id: true,
-            vehicle: {
+            passengerName: true,
+            phone: true,
+            trip_period: true,
+            tollCost: true,
+            parkingCost: true,
+            startLocation: true,
+            description: true,
+            trip_id: true,
+            trip: {
                 select: {
-                    id: true,
-                    brand: true,
-                    color: true,
-                    fuelType: true,
-                    mileage: true,
-                    model: true,
-                    vehicleType: true
+                    driver: true,
+                    costs: true,
+                    passenger_count: true,
+                    trip_rent: true,
+                    vehicle: true,
                 }
             },
-            driver_id: true,
-            driver: {
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    avatar: true,
-                    address: true,
-                    phone: true,
-                    experience: true
-                }
-            },
-            costs: true
+            createdAt: true,
+            updatedAt: true,
         }
     });
-    const total = yield prisma.trip.count();
+    const total = yield prisma.tripCost.count();
     return {
         meta: {
             limit,
@@ -117,8 +105,8 @@ const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0,
         data: response
     };
 });
-const singleTripSerivce = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.trip.findFirst({
+const singleTripCostService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.tripCost.findFirst({
         where: {
             id: id
         }
@@ -126,15 +114,15 @@ const singleTripSerivce = (id) => __awaiter(void 0, void 0, void 0, function* ()
     if (ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
-    const response = yield prisma.trip.findFirst({
+    const response = yield prisma.tripCost.findFirst({
         where: {
             id: id
         }
     });
     return response;
 });
-const updateTripService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.trip.findFirst({
+const updateTripCostService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.tripCost.findFirst({
         where: {
             id: id
         }
@@ -142,7 +130,7 @@ const updateTripService = (id, payload) => __awaiter(void 0, void 0, void 0, fun
     if (ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
-    const response = yield prisma.trip.update({
+    const response = yield prisma.tripCost.update({
         where: {
             id: id
         },
@@ -150,8 +138,8 @@ const updateTripService = (id, payload) => __awaiter(void 0, void 0, void 0, fun
     });
     return response;
 });
-const deleteTripService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.trip.findFirst({
+const deleteTripCostService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.tripCost.findFirst({
         where: {
             id: id
         }
@@ -159,17 +147,17 @@ const deleteTripService = (id) => __awaiter(void 0, void 0, void 0, function* ()
     if (ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
-    const response = yield prisma.trip.delete({
+    const response = yield prisma.tripCost.delete({
         where: {
             id: id
         }
     });
     return response;
 });
-exports.TripServices = {
-    createService,
-    getAllTripService,
-    singleTripSerivce,
-    updateTripService,
-    deleteTripService
+exports.TripCostServices = {
+    createCostService,
+    getAllTripCostService,
+    singleTripCostService,
+    updateTripCostService,
+    deleteTripCostService
 };

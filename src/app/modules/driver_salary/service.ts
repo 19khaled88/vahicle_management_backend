@@ -101,7 +101,7 @@ const getAllTripService = async (
     }
 
   })
-  const total = await prisma.trip.count();
+  const total = await prisma.user.count();
 
   return {
     meta: {
