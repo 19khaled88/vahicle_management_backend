@@ -7,10 +7,10 @@ import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { driverSearchableFields } from "./driver.constant";
 import MakeUserId from "../../../shared/create_id";
 
-const insertIntoDB = async (data: Driver) => {
+const insertIntoDB = async (data: Driver):Promise<Driver> => {
   // :Promise<Driver>
   
-  const response =await MakeUserId('driver')
+  // const response = await MakeUserId('driver')
   const result = await prisma.driver.create({
     data,
   });

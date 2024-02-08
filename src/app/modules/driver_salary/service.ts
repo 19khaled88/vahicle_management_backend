@@ -101,14 +101,14 @@ const getAllDriverSalaryService = async (
 }
 
 const singleDriverSalarySerivce = async (id: string) => {
-  const ifExist = await prisma.driverSalary.findFirst({
-    where: {
-      id: id
-    }
-  })
-  if (ifExist) {
-    throw new ApiError(400, 'This kind of trip not available')
-  }
+  // const ifExist = await prisma.driverSalary.findFirst({
+  //   where: {
+  //     id: id
+  //   }
+  // })
+  // if (ifExist) {
+  //   throw new ApiError(400, 'This kind of salary not available')
+  // }
   const response = await prisma.driverSalary.findFirst({
     where: {
       id: id
