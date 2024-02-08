@@ -1,4 +1,4 @@
-import { RoleEnumType } from '@prisma/client'
+// import { RoleEnumType } from '@prisma/client'
 import express from 'express'
 import { vehicleController } from './controller'
 import validateRequest from '../../middlewares/validateUser';
