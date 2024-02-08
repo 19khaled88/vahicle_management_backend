@@ -25,11 +25,11 @@ const findLastUser = (role) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const MakeUserId = (role) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield findLastUser(role);
-    if (res && res.length === 0) {
+    const lastUser = yield findLastUser(role);
+    if (lastUser && lastUser.length === 0) {
         const newUserId = 'VMS' + role.charAt(0).toUpperCase() + '-' + new Date().getFullYear() + 1;
     }
-    else if (res && res.length > 0) {
+    else if (lastUser && lastUser.length > 0) {
     }
 });
 exports.default = MakeUserId;
