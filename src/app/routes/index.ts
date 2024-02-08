@@ -1,13 +1,14 @@
 
 import express from 'express'
-
 import { AuthRouter } from '../modules/users/route'
 import { DriverRoutes } from "../modules/drivers/driver.routes";
 import { MaintenanceRouter } from '../modules/maintenance/route'
 import { vehicleRouter } from '../modules/vehicle/route'
 import { TripRouter } from '../modules/trips/route';
-import { TripCostRouter } from '../modules/trips_cost/route';
+import { accessoryRouter } from '../modules/accessory/router';
+import { officeCosRouter } from '../modules/officeCost/router';
 import { DriverSalaryRouter } from '../modules/driver_salary/route';
+import { TripCostRouter } from '../modules/trips_cost/route';
 const rootRoute = express.Router()
 
 
@@ -20,6 +21,14 @@ const ModuleRoute = [
     {
         path: '/vehicle',
         routes: vehicleRouter
+    },
+    {
+        path: '/accessory',
+        routes: accessoryRouter
+    },
+    {
+        path: '/officeCost',
+        routes: officeCosRouter
     },
     {
         path: '/maintenance',
