@@ -17,6 +17,9 @@ const createDriver = zod_1.z.object({
         phone: zod_1.z.string({
             required_error: "Phone is required",
         }),
+        experience: zod_1.z.string({
+            required_error: "Experience is required",
+        }),
         avatar: zod_1.z.string({
             required_error: "Avatar is required",
         }),
