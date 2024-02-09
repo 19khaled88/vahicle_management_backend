@@ -16,7 +16,6 @@ const findLastUser = async (role: string) => {
     }else if(role === 'manager'){
 
     }
-
 }
 
 const MakeUserId = async (role: string) => {
