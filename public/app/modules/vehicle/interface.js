@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vehicleProfile_fields_constant = void 0;
 exports.vehicleProfile_fields_constant = [
+    "searchTerm",
     'registrationNo',
     'tax',
     'seatCapacity',

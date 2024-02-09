@@ -1,4 +1,4 @@
-export const trip_cost_fields_constant = ['passengerName', 'phone', 'trip_id']
+export const trip_cost_fields_constant = ["searchTerm",'passengerName', 'phone', 'trip_id']
 
 
 export type ITripCostResponse = {
