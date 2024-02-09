@@ -10,8 +10,11 @@ const createDriverSalary = zod_1.z.object({
         amount: zod_1.z.number({
             required_error: 'Amount is required'
         }),
-        currency: zod_1.z.string({
-            required_error: 'Currency is required'
+        month: zod_1.z.string({
+            required_error: 'Month is required'
+        }),
+        position: zod_1.z.string({
+            required_error: 'Position is required'
         }),
         status: zod_1.z.string({
             required_error: 'Status is required'
