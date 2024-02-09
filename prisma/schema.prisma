@@ -226,14 +226,14 @@ model Income {
 
 // Driver model
 model Driver {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  email      String   @unique
+  email      String @unique
   phone      String
   avatar     String
   experience String
-  join_date  DateTime
-  rating     String
+  nid        String
+  license_no String
   address    String
 
   createAt      DateTime       @default(now())

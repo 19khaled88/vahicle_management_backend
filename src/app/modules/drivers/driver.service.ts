@@ -7,9 +7,8 @@ import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { driverSearchableFields } from "./driver.constant";
 import MakeUserId from "../../../shared/create_id";
 
-const insertIntoDB = async (data: Driver) => {
-  // :Promise<Driver>
-  // const response =await MakeUserId('driver')
+const insertIntoDB = async (data: Driver): Promise<Driver> => {
+ 
   const result = await prisma.driver.create({
     data,
   });
@@ -59,8 +58,8 @@ const getAllFromDB = async (
       options.sortBy && options.sortOrder
         ? { [options.sortBy]: options.sortOrder }
         : {
-            createAt: "desc",
-          },
+          createAt: "desc",
+        },
   });
   const total = await prisma.driver.count({
     where: whereConditions,

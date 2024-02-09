@@ -15,17 +15,17 @@ const createDriver = z.object({
     phone: z.string({
       required_error: "Phone is required",
     }),
-    avatar: z.string({
-      required_error: "Avatar is required",
-    }),
     experience: z.string({
       required_error: "Experience is required",
     }),
-    join_date: z.string({
-      required_error: "Join_date is required",
+    avatar: z.string({
+      required_error: "Avatar is required",
     }),
-    rating: z.string({
-      required_error: "Rating is required",
+    nid: z.string({
+      required_error: "Nid is required",
+    }),
+    license_no: z.string({
+      required_error: "License_no is required",
     }),
     address: z.string({
       required_error: "Address is required",

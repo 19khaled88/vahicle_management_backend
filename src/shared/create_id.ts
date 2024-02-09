@@ -11,18 +11,18 @@ const findLastUser = async (role: string) => {
             },
             take: 1,
         })
+        
         return lastItem
     }else if(role === 'manager'){
 
     }
-
 }
 
 const MakeUserId = async (role: string) => {
-  const res = await findLastUser(role)
-  if(res && res.length === 0){
+  const lastUser = await findLastUser(role)
+  if(lastUser && lastUser.length === 0){
     const newUserId = 'VMS'+role.charAt(0).toUpperCase()+'-'+new Date().getFullYear() + 1
-  }else if(res && res.length > 0) {
+  }else if(lastUser && lastUser.length > 0) {
     
   }
 }

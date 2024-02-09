@@ -13,6 +13,7 @@ const createDriverSalary = z.object({
         position: z.string({
             required_error: 'Position is required'
         }),
+    
         description: z.string().nullable().optional(),
         status: z.enum(['PENDING', 'PROCESSING', 'DONE'], {
             required_error: 'Status is required and must be one of "PENDING", "PROCESSING", or "DONE"'

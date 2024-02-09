@@ -9,6 +9,7 @@ import { IDriverSalaryResponse, driver_salary_fields_constant } from "./interfac
 const prisma = new PrismaClient()
 
 const createDriverSalaryService = async (payload: any) => {
+
   const response = await prisma.driverSalary.create({
     data: payload
   })
@@ -78,12 +79,11 @@ const getAllDriverSalaryService = async (
         select: {
           id:true,
           name: true,
-          // email: true,
-          // join_date:true,
-          // address: true,
-          // avatar: true,
-          // experience: true,
-          // phone: true
+          email: true,
+          address: true,
+          avatar: true,
+          experience: true,
+          phone: true
         }
       },
       createdAt: true,
@@ -104,14 +104,14 @@ const getAllDriverSalaryService = async (
 }
 
 const singleDriverSalarySerivce = async (id: string) => {
-  const ifExist = await prisma.driverSalary.findFirst({
-    where: {
-      id: id
-    }
-  })
-  if (ifExist) {
-    throw new ApiError(400, 'This kind of trip not available')
-  }
+  // const ifExist = await prisma.driverSalary.findFirst({
+  //   where: {
+  //     id: id
+  //   }
+  // })
+  // if (ifExist) {
+  //   throw new ApiError(400, 'This kind of salary not available')
+  // }
   const response = await prisma.driverSalary.findFirst({
     where: {
       id: id
@@ -127,7 +127,7 @@ const updateDriverSalaryService = async (id: string, payload: any) => {
     }
   })
   if (ifExist) {
-    throw new ApiError(400, 'This kind of trip not available')
+    throw new ApiError(400, 'This kind of salary not available')
   }
   const response = await prisma.driverSalary.update({
     where: {
@@ -145,7 +145,7 @@ const deleteDriverSalaryService = async (id: string) => {
     }
   })
   if (ifExist) {
-    throw new ApiError(400, 'This kind of trip not available')
+    throw new ApiError(400, 'This kind of salary not available')
   }
   const response = await prisma.driverSalary.delete({
     where: {

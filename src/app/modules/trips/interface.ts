@@ -1,4 +1,5 @@
 export const trip_fields_constant = ['vehicle_id', "id",'user_id', 'start_location', 'end_location', 'start_time', 'end_time']
+// export const trip_fields_constant = ["searchTerm",'vehicle_id', 'user_id', 'start_location', 'end_location', 'start_time', 'end_time']
 
 
 type Cost = {
