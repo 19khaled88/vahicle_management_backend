@@ -20,14 +20,11 @@ const createDriver = zod_1.z.object({
         avatar: zod_1.z.string({
             required_error: "Avatar is required",
         }),
-        experience: zod_1.z.string({
-            required_error: "Experience is required",
+        nid: zod_1.z.string({
+            required_error: "Nid is required",
         }),
-        join_date: zod_1.z.string({
-            required_error: "Join_date is required",
-        }),
-        rating: zod_1.z.string({
-            required_error: "Rating is required",
+        license_no: zod_1.z.string({
+            required_error: "License_no is required",
         }),
         address: zod_1.z.string({
             required_error: "Address is required",

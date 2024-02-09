@@ -9,6 +9,7 @@ import { IDriverSalaryResponse, driver_salary_fields_constant } from "./interfac
 const prisma = new PrismaClient()
 
 const createDriverSalaryService = async (payload: any) => {
+
   const response = await prisma.driverSalary.create({
     data: payload
   })
