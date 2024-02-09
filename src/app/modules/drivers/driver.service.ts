@@ -9,8 +9,7 @@ import MakeUserId from "../../../shared/create_id";
 
 const insertIntoDB = async (data: Driver) => {
   // :Promise<Driver>
-  
-  const response =await MakeUserId('driver')
+  // const response =await MakeUserId('driver')
   const result = await prisma.driver.create({
     data,
   });
@@ -20,7 +19,7 @@ const insertIntoDB = async (data: Driver) => {
 const getAllFromDB = async (
   filters: IDriverFilterRequest,
   options: IPaginationOptions
-): Promise<IGenericResponse<Driver[]>> => {
+): Promise<IGenericResponse<any>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
 

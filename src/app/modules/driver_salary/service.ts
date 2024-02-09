@@ -64,23 +64,26 @@ const getAllDriverSalaryService = async (
           [paginatinOptions.sortBy]: paginatinOptions.sortOrder
         }
         : { createdAt: 'asc' },
+
+       
     select: {
       id: true,
       driver_id: true,
       amount: true,
-      // currency: true,
+      month:true,
+      position:true,
       description: true,
       status: true,
       driver: {
         select: {
           id:true,
           name: true,
-          email: true,
-          join_date:true,
-          address: true,
-          avatar: true,
-          experience: true,
-          phone: true
+          // email: true,
+          // join_date:true,
+          // address: true,
+          // avatar: true,
+          // experience: true,
+          // phone: true
         }
       },
       createdAt: true,
