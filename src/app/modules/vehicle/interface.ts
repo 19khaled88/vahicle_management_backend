@@ -1,6 +1,7 @@
 // import { IUserResponse } from "../users/interface";
 
 export const vehicleProfile_fields_constant =  [
+  "searchTerm",
     'registrationNo',
     'tax',
     'seatCapacity',
