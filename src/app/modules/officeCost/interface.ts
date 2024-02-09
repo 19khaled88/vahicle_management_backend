@@ -2,6 +2,7 @@
 export const officeCost_fields_constant = [
   "cost_name",
   "amount",
+  "searchTerm",
   "description",
   "createdAt",
   "updatedAt",

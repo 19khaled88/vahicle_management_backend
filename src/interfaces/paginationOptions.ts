@@ -6,5 +6,6 @@ export type IPaginationOptions = {
 };
 
 export type IFilters ={
+  [key: string]: any;
   searchTerm?:string
 }
