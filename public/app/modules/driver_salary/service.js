@@ -76,7 +76,8 @@ const getAllDriverSalaryService = (paginatinOptions, filterOptions) => __awaiter
             id: true,
             driver_id: true,
             amount: true,
-            currency: true,
+            month: true,
+            position: true,
             description: true,
             status: true,
             driver: {
@@ -84,7 +85,6 @@ const getAllDriverSalaryService = (paginatinOptions, filterOptions) => __awaiter
                     id: true,
                     name: true,
                     email: true,
-                    join_date: true,
                     address: true,
                     avatar: true,
                     experience: true,
@@ -128,7 +128,7 @@ const updateDriverSalaryService = (id, payload) => __awaiter(void 0, void 0, voi
         }
     });
     if (ifExist) {
-        throw new ApiError_1.default(400, 'This kind of trip not available');
+        throw new ApiError_1.default(400, 'This kind of salary not available');
     }
     const response = yield prisma.driverSalary.update({
         where: {
@@ -145,7 +145,7 @@ const deleteDriverSalaryService = (id) => __awaiter(void 0, void 0, void 0, func
         }
     });
     if (ifExist) {
-        throw new ApiError_1.default(400, 'This kind of trip not available');
+        throw new ApiError_1.default(400, 'This kind of salary not available');
     }
     const response = yield prisma.driverSalary.delete({
         where: {

@@ -149,7 +149,8 @@ model driverSalary {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   driver_id   String        @db.ObjectId // Foreign key referencing the employee receiving the salary
   amount      Float // Amount of the salary
-  currency    String // Currency of the salary (e.g., USD, EUR)
+  month       String
+  position    String
   description String? // Optional description of the salary
   status      SalaryProcess
   driver      Driver        @relation(fields: [driver_id], references: [id])
@@ -226,14 +227,14 @@ model Income {
 
 // Driver model
 model Driver {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  email      String   @unique
+  email      String @unique
   phone      String
   avatar     String
   experience String
-  join_date  DateTime
-  rating     String
+  nid        String
+  license_no String
   address    String
 
   createAt      DateTime       @default(now())

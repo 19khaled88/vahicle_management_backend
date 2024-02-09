@@ -68,7 +68,8 @@ const getAllDriverSalaryService = async (
       id: true,
       driver_id: true,
       amount: true,
-      currency: true,
+      month:true,
+      position:true,
       description: true,
       status: true,
       driver: {
@@ -76,7 +77,6 @@ const getAllDriverSalaryService = async (
           id:true,
           name: true,
           email: true,
-          join_date:true,
           address: true,
           avatar: true,
           experience: true,
@@ -124,7 +124,7 @@ const updateDriverSalaryService = async (id: string, payload: any) => {
     }
   })
   if (ifExist) {
-    throw new ApiError(400, 'This kind of trip not available')
+    throw new ApiError(400, 'This kind of salary not available')
   }
   const response = await prisma.driverSalary.update({
     where: {
@@ -142,7 +142,7 @@ const deleteDriverSalaryService = async (id: string) => {
     }
   })
   if (ifExist) {
-    throw new ApiError(400, 'This kind of trip not available')
+    throw new ApiError(400, 'This kind of salary not available')
   }
   const response = await prisma.driverSalary.delete({
     where: {
