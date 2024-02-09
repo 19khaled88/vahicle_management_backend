@@ -64,28 +64,28 @@ const getAllDriverSalaryService = async (
           [paginatinOptions.sortBy]: paginatinOptions.sortOrder
         }
         : { createdAt: 'asc' },
-    // select: {
-    //   id: true,
-    //   driver_id: true,
-    //   amount: true,
-    //   // currency: true,
-    //   description: true,
-    //   status: true,
-    //   driver: {
-    //     select: {
-    //       id:true,
-    //       name: true,
-    //       email: true,
-    //       join_date:true,
-    //       address: true,
-    //       avatar: true,
-    //       experience: true,
-    //       phone: true
-    //     }
-    //   },
-    //   createdAt: true,
-    //   updatedAt: true,
-    // },
+    select: {
+      id: true,
+      driver_id: true,
+      amount: true,
+      // currency: true,
+      description: true,
+      status: true,
+      driver: {
+        select: {
+          id:true,
+          name: true,
+          email: true,
+          join_date:true,
+          address: true,
+          avatar: true,
+          experience: true,
+          phone: true
+        }
+      },
+      createdAt: true,
+      updatedAt: true,
+    },
   })
   const total = await prisma.driverSalary.count();
 
