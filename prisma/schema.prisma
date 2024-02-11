@@ -308,7 +308,7 @@ model Maintenance {
   @@map("maintenances")
 }
 
-// Request from driver to manager 
+// Mobarak vai korben 
 model InventoryRequest {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   title         String
@@ -317,6 +317,7 @@ model InventoryRequest {
   ManageRequest ManageRequest[]
 }
 
+// Mobarak vai korben
 model ManageRequest {
   id                   String           @id @default(auto()) @map("_id") @db.ObjectId
   inventory_request_id String           @db.ObjectId
