@@ -55,7 +55,7 @@ model User {
 
 // Vehicle model
 model Vehicle {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
   registrationNo   String
   purchaseDate     DateTime
   registrationDate DateTime?
@@ -68,9 +68,10 @@ model Vehicle {
   brand            String
   model            String
   fuelType         FuelType
-  createAt         DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  createAt         DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
   trips            Trip[]
+  manageFuels      ManageFuel[]
 
   @@map("vehicles")
 }
@@ -130,19 +131,19 @@ model OfficeCost {
 
 // accessory added
 model Accessory {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
   accessory_name String
   quantity       Int
   purchase_data  String
-expire_date   String?
+  expire_date    String?
   amount         Float
   description    String? // Optional description of the accessory
-  createdAt      DateTime  @default(now()) // Timestamp when the record was created
-  updatedAt      DateTime  @updatedAt // Timestamp when the record was last updated
+  createdAt      DateTime    @default(now()) // Timestamp when the record was created
+  updatedAt      DateTime    @updatedAt // Timestamp when the record was last updated
+  inventories    Inventory[]
 
   @@map("accessories")
 }
-
 
 // salary
 model driverSalary {
@@ -159,8 +160,6 @@ model driverSalary {
 
   @@map("driver_salaries")
 }
-
-
 
 // Cost model
 model Cost {
@@ -183,13 +182,15 @@ model Cost {
 
 // Inventory model
 model Inventory {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  quantity    Int
-  description String
-  createAt    DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  costs       Cost[]
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  accessory_id String    @db.ObjectId
+  accessory    Accessory @relation(fields: [accessory_id], references: [id])
+  quantity     Int
+  description  String
+  createAt     DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  costs        Cost[]
 
   @@map("inventories")
 }
@@ -207,6 +208,20 @@ model Salary {
   user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("salaries")
+}
+
+model ManageFuel {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  vehicle_id     String   @db.ObjectId
+  vehicle        Vehicle  @relation(fields: [vehicle_id], references: [id])
+  fuel_type      FuelType
+  invoice_number Int
+  purchase_date  DateTime
+  amount         Float
+  ltr            Float
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Income model
@@ -293,11 +308,34 @@ model Maintenance {
   @@map("maintenances")
 }
 
+// Request from driver to manager 
+model InventoryRequest {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  createAt      DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  ManageRequest ManageRequest[]
+}
+
+model ManageRequest {
+  id                   String           @id @default(auto()) @map("_id") @db.ObjectId
+  inventory_request_id String           @db.ObjectId
+  inventoryRequest     InventoryRequest @relation(fields: [inventory_request_id], references: [id])
+  approve_status       RequestStatus    @default(PENDING)
+  comment              String?
+}
+
 // vehicle type enum
 enum VehicleType {
   AC
   NonAC
   SlippingBus
+}
+
+enum RequestStatus {
+  APPROVE
+  PENDING
+  REJECT
 }
 
 //fuel type enum
@@ -313,3 +351,5 @@ enum SalaryProcess {
   PROCESSING
   DONE
 }
+
+//driver part 
