@@ -26,7 +26,7 @@ const getAllDriverSalaryService = async (
     paginationHelpers.calculatePagination(paginatinOptions);
 
   const andConditions = [];
-
+  console.log(filterOptions)
   //searching code
   if (searchTerm) {
     andConditions.push({
