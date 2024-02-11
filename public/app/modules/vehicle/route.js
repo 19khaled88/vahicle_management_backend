@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vehicleRouter = void 0;
+// import { RoleEnumType } from '@prisma/client'
 const express_1 = __importDefault(require("express"));
 const controller_1 = require("./controller");
 const validateUser_1 = __importDefault(require("../../middlewares/validateUser"));
