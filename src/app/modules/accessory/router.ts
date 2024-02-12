@@ -13,8 +13,8 @@ const router = express.Router()
 router.post('/',validateRequest(accessoryZodValidation.AccessoryZodSchema),accessoryController.createAccessoryController )
 
 router.get('/',accessoryController.getAllAccessoryController)
-router.get('/:id',accessoryController.getSingleAccessoryController)
-router.delete('/:id',accessoryController.deleteAccessoryController)
-router.patch('/:id',accessoryController.updateAccessoryController)
+router.get('/single/:id',accessoryController.getSingleAccessoryController)
+router.delete('/delete/:id',accessoryController.deleteAccessoryController)
+router.patch('/update/:id',accessoryController.updateAccessoryController)
 
 export const accessoryRouter = router

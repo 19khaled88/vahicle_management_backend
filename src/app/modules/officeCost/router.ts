@@ -12,8 +12,8 @@ const router = express.Router()
 
 router.post('/',validateRequest(OfficeZodValidation.OfficeCostZodSchema),officeCostController.createOfficeCostController )
 router.get('/',officeCostController.getAllOfficeCostController)
-router.get('/:id',officeCostController.getSingleOfficeCostController)
-router.delete('/:id',officeCostController.deleteOfficeCostController)
-router.patch('/:id',officeCostController.updateOfficeCostController)
+router.get('/single/:id',officeCostController.getSingleOfficeCostController)
+router.delete('/delete/:id',officeCostController.deleteOfficeCostController)
+router.patch('/update/:id',officeCostController.updateOfficeCostController)
 
 export const officeCosRouter = router
