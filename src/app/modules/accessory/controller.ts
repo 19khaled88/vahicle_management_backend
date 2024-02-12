@@ -18,33 +18,68 @@ const createAccessoryController: RequestHandler = async (req, res, next) => {
       return next(err);
     }
   };
-  const getAllAccessoryController: RequestHandler = async (req, res, next) => {
-    try {
-      const filterOptions = pick(req.query, [
-        'accessory_name',
-        'quantity ',
-        'purchase_data',
-        'amount  ',
-        "expire_data ",
-        'createdAt',
-        'updatedAt',
-      ]);
-      const paginationOptions = pick(req.query, paginationOptionFields);
+  // const getAllAccessoryController: RequestHandler = async (req, res, next) => {
+
+  //   // console.log(req.query)
+  //   try {
+  //     const filterOptions = pick(req.query, [
+  //       'accessory_name',
+  //       'quantity ',
+  //       'purchase_data',
+  //       'amount  ',
+  //       "expire_data",
+  //       'createdAt',
+  //       'updatedAt',
+  //     ]);
+  //     const paginationOptions = pick(req.query, paginationOptionFields);
   
-      const response = await accessoryService.getAllAccessoryService(
-        paginationOptions,
-        filterOptions
-      );
-      return sendResponse(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: 'Accessory retrieved successfully',
-        data: response,
-      });
-    } catch (err) {
-      return next(err);
-    }
-  };
+  //     const response = await accessoryService.getAllAccessoryService(
+  //       paginationOptions,
+  //       filterOptions
+  //     );
+  //     return sendResponse(res, {
+  //       statusCode: httpStatus.OK,
+  //       success: true,
+  //       message: 'Accessory retrieved successfully',
+  //       data: response,
+  //     });
+  //   } catch (err) {
+  //     return next(err);
+  //   }
+  // };
+  
+  // const paginationOptionFields:any = ['limit', 'page', 'sortBy', 'sortOrder'];
+
+export const getAllAccessoryController: RequestHandler = async (req, res, next) => {
+  try {
+    const filterOptions = pick(req.query, [
+      'accessory_name',
+      'quantity',
+      'purchase_data',
+      'amount',
+      'expire_data',
+      'createdAt',
+      'updatedAt',
+      'searchTerm', // Add searchTerm here to pick it from the query
+    ]);
+    const paginationOptions = pick(req.query, paginationOptionFields);
+
+    const response = await accessoryService.getAllAccessoryService(
+      paginationOptions,
+      filterOptions
+    );
+    return sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Accessory retrieved successfully',
+      data: response,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+  
+  
   const getSingleAccessoryController: RequestHandler = async (
     req: any,
     res: any,

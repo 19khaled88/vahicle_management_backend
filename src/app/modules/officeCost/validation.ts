@@ -18,14 +18,3 @@ const OfficeCostZodSchema = z.object({
 OfficeCostZodSchema
   }
 
-//   // office cost
-// model OfficeCost {
-//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-//   cost_name   String
-//   amount      Int
-//   description String? // Optional description of the cost
-//   createdAt   DateTime @default(now()) // Timestamp when the record was created
-//   updatedAt   DateTime @updatedAt // Timestamp when the record was last updated
-
-//   @@map("office_costs")
-// }

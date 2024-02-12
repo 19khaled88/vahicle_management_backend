@@ -12,68 +12,121 @@ const createAccessoryService = async (payload: any) => {
   return result;
 };
 
+// const getAllAccessoryService = async (
+//   paginatinOptions: IPaginationOptions,
+//   filterOptions: IFilters
+// ): Promise<IGenericResponse<any>> =>
+//   // : Promise<IGenericResponse<IUserResponse[]>> =>
+//   {
+//     const { searchTerm, ...filterData } = filterOptions;
+//     const { limit, page, skip } =
+//       paginationHelpers.calculatePagination(paginatinOptions);
+//     const andConditions = [];
+//     //searching code
+//     if (searchTerm) {
+//       andConditions.push({
+//         OR: accessory_fields_constant.map(field => {
+//           return {
+//             [field]: {
+//               contains: searchTerm,
+//               mode: 'insensitive',
+//             },
+//           };
+//         }),
+//       });
+//     }
+
+//     //filtering code
+//     if (Object.keys(filterData).length > 0) {
+//       andConditions.push({
+//         AND: Object.keys(filterData).map(key => ({
+//           [key]: {
+//             equals: (filterData as any)[key],
+//           },
+//         })),
+//       });
+//     }
+
+//     const whereCondition: Prisma.AccessoryWhereInput =
+//       andConditions.length > 0 ? { AND: andConditions } : {};
+//     const result = await prisma.accessory.findMany({
+//       where: whereCondition,
+//       skip,
+//       take: limit,
+//       orderBy:
+//         paginatinOptions.sortBy && paginatinOptions.sortOrder
+//           ? {
+//               [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
+//             }
+//           : { createdAt: 'asc' },
+//       // select: {
+
+//       // },
+//     });
+//     const total = await prisma.accessory.count();
+//     return {
+//       meta: {
+//         limit,
+//         page,
+//         total,
+//       },
+//       data: result,
+//     };
+//   };
 const getAllAccessoryService = async (
-  paginatinOptions: IPaginationOptions,
+  paginationOptions: IPaginationOptions,
   filterOptions: IFilters
-): Promise<IGenericResponse<any>> =>
-  // : Promise<IGenericResponse<IUserResponse[]>> =>
-  {
-    const { searchTerm, ...filterData } = filterOptions;
-    const { limit, page, skip } =
-      paginationHelpers.calculatePagination(paginatinOptions);
-    const andConditions = [];
-    //searching code
-    if (searchTerm) {
-      andConditions.push({
-        OR: accessory_fields_constant.map(field => {
-          return {
-            [field]: {
-              contains: searchTerm,
-              mode: 'insensitive',
-            },
-          };
-        }),
-      });
-    }
+): Promise<IGenericResponse<any>> => {
+  const { searchTerm, ...filterData } = filterOptions; // Specify IFilters type explicitly for filterData
+  const { limit, page, skip } =
+    paginationHelpers.calculatePagination(paginationOptions);
+  const andConditions = [];
 
-    //filtering code
-    if (Object.keys(filterData).length > 0) {
-      andConditions.push({
-        AND: Object.keys(filterData).map(key => ({
-          [key]: {
-            equals: (filterData as any)[key],
-          },
-        })),
-      });
-    }
-
-    const whereCondition: Prisma.AccessoryWhereInput =
-      andConditions.length > 0 ? { AND: andConditions } : {};
-    const result = await prisma.accessory.findMany({
-      where: whereCondition,
-      skip,
-      take: limit,
-      orderBy:
-        paginatinOptions.sortBy && paginatinOptions.sortOrder
-          ? {
-              [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
-            }
-          : { createdAt: 'asc' },
-      // select: {
-
-      // },
+  // Searching code
+  if (searchTerm) {
+    andConditions.push({
+      OR: accessory_fields_constant.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
     });
-    const total = await prisma.accessory.count();
-    return {
-      meta: {
-        limit,
-        page,
-        total,
-      },
-      data: result,
-    };
-  };
+  }
 
+  // Filtering code
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map(key => ({
+        [key]: {
+          equals: filterData[key], // Use filterData[key] instead of (filterData as any)[key]
+        },
+      })),
+    });
+  }
+
+  const whereCondition = andConditions.length > 0 ? { AND: andConditions } : {};
+  const result = await prisma.accessory.findMany({
+    where: whereCondition,
+    skip,
+    take: limit,
+    orderBy:
+      paginationOptions.sortBy && paginationOptions.sortOrder
+        ? {
+            [paginationOptions.sortBy]: paginationOptions.sortOrder,
+          }
+        : { createdAt: 'asc' },
+  });
+  const total = await prisma.accessory.count();
+  return {
+    meta: {
+      limit,
+      page,
+      total,
+    },
+    data: result,
+  };
+};
 const getSingleAccessoryService = async (id: string) => {
   const result = await prisma.accessory.findUnique({
     where: {

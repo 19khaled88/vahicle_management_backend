@@ -1,6 +1,7 @@
 import { SalaryProcess } from "@prisma/client";
 
-export const driver_salary_fields_constant = ["searchTerm",'driver_id', 'status']
+export const driver_salary_fields_constant = ['driver_id', 'status',"name","email","address",]
+// export const driver_salary_fields_constant = ["searchTerm",'driver_id', 'status']
 
 type Driver = {
         id: string;

@@ -14,10 +14,10 @@ const createOfficeCosService = async (payload: any) => {
 };
 
 const getAllOfficeCosService = async (
+  filterOptions: IFilters,
   paginatinOptions: IPaginationOptions,
-  filterOptions: IFilters
 ): Promise<IGenericResponse<any>> =>
-  // : Promise<IGenericResponse<IUserResponse[]>> =>
+
   {
     const { searchTerm, ...filterData } = filterOptions;
     const { limit, page, skip } =

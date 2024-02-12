@@ -19,7 +19,7 @@ const createDriverSalaryService = async (payload: any) => {
 const getAllDriverSalaryService = async (
   paginatinOptions: IPaginationOptions,
   filterOptions: IFilters
-): Promise<IGenericResponse<IDriverSalaryResponse[]>> => {
+): Promise<IGenericResponse<any>> => {
 
   const { searchTerm, ...filterData } = filterOptions;
   const { limit, page, skip } =
@@ -65,6 +65,8 @@ const getAllDriverSalaryService = async (
           [paginatinOptions.sortBy]: paginatinOptions.sortOrder
         }
         : { createdAt: 'asc' },
+
+       
     select: {
       id: true,
       driver_id: true,
