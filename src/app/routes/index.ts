@@ -9,6 +9,8 @@ import { accessoryRouter } from '../modules/accessory/router';
 import { officeCosRouter } from '../modules/officeCost/router';
 import { DriverSalaryRouter } from '../modules/driver_salary/route';
 import { TripCostRouter } from '../modules/trips_cost/route';
+import { inventoryRequestRouter } from '../modules/InventoryRequest/inventoryRequest.route';
+import { manageRequestRouter } from '../modules/MangeRequest/manageRequest.route';
 const rootRoute = express.Router()
 
 
@@ -21,6 +23,14 @@ const ModuleRoute = [
     {
         path: '/vehicle',
         routes: vehicleRouter
+    },
+    {
+        path: '/inventoryRequest',
+        routes: inventoryRequestRouter
+    },
+    {
+        path: '/manageRequest',
+        routes: manageRequestRouter
     },
     {
         path: '/accessory',

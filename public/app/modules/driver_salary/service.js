@@ -39,6 +39,7 @@ const getAllDriverSalaryService = (paginatinOptions, filterOptions) => __awaiter
     const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
     const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginatinOptions);
     const andConditions = [];
+    console.log(filterOptions);
     //searching code
     if (searchTerm) {
         andConditions.push({
