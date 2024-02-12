@@ -66,6 +66,16 @@ const getAllInventoryService = (paginationOptions, filterOptions) => __awaiter(v
                 [paginationOptions.sortBy]: paginationOptions.sortOrder
             }
             : { createAt: 'asc' },
+        select: {
+            id: true,
+            accessory: true,
+            accessory_id: true,
+            description: true,
+            name: true,
+            quantity: true,
+            createAt: true,
+            updatedAt: true
+        }
     });
     const total = yield prisma.inventory.count();
     return {

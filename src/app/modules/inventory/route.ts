@@ -9,4 +9,4 @@ router.get('/single/:id', inventoryController.singleInventoryController)
 router.delete('/delete/:id', inventoryController.deleteInventoryController)
 router.patch('/update/:id', inventoryController.updateInventoryController)
 
-export const accessoryRouter = router
+export const InventoryRouter = router
