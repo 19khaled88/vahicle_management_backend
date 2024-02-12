@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.accessoryController = void 0;
+exports.accessoryController = exports.getAllAccessoryController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const service_1 = require("./service");
@@ -32,16 +32,45 @@ const createAccessoryController = (req, res, next) => __awaiter(void 0, void 0, 
         return next(err);
     }
 });
+// const getAllAccessoryController: RequestHandler = async (req, res, next) => {
+//   // console.log(req.query)
+//   try {
+//     const filterOptions = pick(req.query, [
+//       'accessory_name',
+//       'quantity ',
+//       'purchase_data',
+//       'amount  ',
+//       "expire_data",
+//       'createdAt',
+//       'updatedAt',
+//     ]);
+//     const paginationOptions = pick(req.query, paginationOptionFields);
+//     const response = await accessoryService.getAllAccessoryService(
+//       paginationOptions,
+//       filterOptions
+//     );
+//     return sendResponse(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: 'Accessory retrieved successfully',
+//       data: response,
+//     });
+//   } catch (err) {
+//     return next(err);
+//   }
+// };
+// const paginationOptionFields:any = ['limit', 'page', 'sortBy', 'sortOrder'];
 const getAllAccessoryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const filterOptions = (0, pick_1.default)(req.query, [
             'accessory_name',
-            'quantity ',
+            'quantity',
             'purchase_data',
-            'amount  ',
-            "expire_data ",
+            'amount',
+            'expire_data',
             'createdAt',
             'updatedAt',
+            'searchTerm', // Add searchTerm here to pick it from the query
         ]);
         const paginationOptions = (0, pick_1.default)(req.query, paginationOptions_1.paginationOptionFields);
         const response = yield service_1.accessoryService.getAllAccessoryService(paginationOptions, filterOptions);
@@ -56,6 +85,7 @@ const getAllAccessoryController = (req, res, next) => __awaiter(void 0, void 0, 
         return next(err);
     }
 });
+exports.getAllAccessoryController = getAllAccessoryController;
 const getSingleAccessoryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -127,5 +157,5 @@ exports.accessoryController = {
     updateAccessoryController,
     deleteAccessoryController,
     getSingleAccessoryController,
-    getAllAccessoryController
+    getAllAccessoryController: exports.getAllAccessoryController
 };
