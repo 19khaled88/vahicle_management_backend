@@ -340,7 +340,6 @@ enum VehicleType {
 }
 
 
-
 //fuel type enum
 enum FuelType {
   Petrol

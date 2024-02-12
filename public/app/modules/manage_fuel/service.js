@@ -19,142 +19,149 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-<<<<<<< HEAD
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.officeCostService = void 0;
-const client_1 = require("@prisma/client");
-const interface_1 = require("./interface");
-const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
-=======
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.officeCostService = void 0;
+exports.ManageFuelServices = void 0;
 const client_1 = require("@prisma/client");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const interface_1 = require("./interface");
->>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
 const prisma = new client_1.PrismaClient();
-const createOfficeCosService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma.officeCost.create({
-        data: payload,
+const createManageFuelService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield prisma.manageFuel.create({
+        data: payload
     });
-    return result;
+    return response;
 });
-const getAllOfficeCosService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllManageFuelService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
     const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginatinOptions);
     const andConditions = [];
     //searching code
     if (searchTerm) {
         andConditions.push({
-            OR: interface_1.officeCost_fields_constant.map((field) => {
+            OR: interface_1.manage_fuel_fields_constant.map(field => {
                 return {
                     [field]: {
                         contains: searchTerm,
-                        mode: "insensitive",
-                    },
+                        mode: 'insensitive'
+                    }
                 };
-            }),
+            })
         });
     }
     //filtering code
     if (Object.keys(filterData).length > 0) {
         andConditions.push({
-            AND: Object.keys(filterData).map((key) => ({
+            AND: Object.keys(filterData).map(key => ({
                 [key]: {
-                    equals: filterData[key],
-                },
-            })),
+                    equals: filterData[key]
+                }
+            }))
         });
     }
+    console.log(andConditions);
     const whereCondition = andConditions.length > 0 ? { AND: andConditions } : {};
-    const result = yield prisma.officeCost.findMany({
+    const response = yield prisma.manageFuel.findMany({
         where: whereCondition,
         skip,
         take: limit,
         orderBy: paginatinOptions.sortBy && paginatinOptions.sortOrder
             ? {
-                [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
+                [paginatinOptions.sortBy]: paginatinOptions.sortOrder
             }
-            : { createdAt: "asc" },
-        // select: {
-        // },
+            : { createAt: 'asc' },
+        select: {
+            id: true,
+            amount: true,
+            fuel_type: true,
+            vehicle: {
+                select: {
+                    id: true,
+                    brand: true,
+                    color: true,
+                    // fuelType:true,
+                    mileage: true,
+                    model: true,
+                    purchaseDate: true,
+                    seatCapacity: true,
+                    vehicleType: true,
+                }
+            },
+            invoice_number: true,
+            purchase_date: true,
+            vehicle_id: true,
+            ltr: true,
+            createAt: true,
+            updatedAt: true,
+        }
     });
-    const total = yield prisma.officeCost.count();
+    const total = yield prisma.manageFuel.count();
     return {
         meta: {
             limit,
             page,
-            total,
+            total
         },
-        data: result,
+        data: response
     };
 });
-const getSingleOfficeCosService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-<<<<<<< HEAD
-=======
-    const ifExist = yield prisma.officeCost.findFirst({
+const singleManageFuelService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.manageFuel.findFirst({
         where: {
             id: id
         }
     });
     if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of office cost data not available');
+        throw new ApiError_1.default(400, 'This kind of manage fuel data not available');
     }
->>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
-    const result = yield prisma.officeCost.findUnique({
+    const response = yield prisma.manageFuel.findFirst({
         where: {
-            id,
-        },
+            id: id
+        }
     });
-    return result;
+    return response;
 });
-const updateOfficeCosService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
-<<<<<<< HEAD
-=======
-    const ifExist = yield prisma.officeCost.findFirst({
+const updateManageFuelService = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.manageFuel.findFirst({
+        where: {
+            id: id
+        }
+    });
+    console.log(ifExist);
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This kind of manage fuel data not available');
+    }
+    const response = yield prisma.manageFuel.update({
+        where: {
+            id: id
+        },
+        data: payload
+    });
+    return response;
+});
+const deleteManageFuelService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.manageFuel.findFirst({
         where: {
             id: id
         }
     });
     if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of office cost data not available');
+        throw new ApiError_1.default(400, 'This kind of manage fuel data not available');
     }
->>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
-    const result = yield prisma.officeCost.update({
-        where: {
-            id: id,
-        },
-        data,
-    });
-    return result;
-});
-const DeleteOfficeCostService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-<<<<<<< HEAD
-=======
-    const ifExist = yield prisma.officeCost.findFirst({
+    const response = yield prisma.manageFuel.delete({
         where: {
             id: id
         }
     });
-    if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of office cost data not available');
-    }
->>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
-    const result = yield prisma.officeCost.delete({
-        where: {
-            id,
-        },
-    });
-    return result;
+    return response;
 });
-exports.officeCostService = {
-    DeleteOfficeCostService,
-    updateOfficeCosService,
-    getSingleOfficeCosService,
-    getAllOfficeCosService,
-    createOfficeCosService,
+exports.ManageFuelServices = {
+    createManageFuelService,
+    getAllManageFuelService,
+    singleManageFuelService,
+    updateManageFuelService,
+    deleteManageFuelService
 };
