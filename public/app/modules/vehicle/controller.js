@@ -79,7 +79,6 @@ const getSingleVehicleController = (req, res, next) => __awaiter(void 0, void 0,
     }
 });
 const deleteVehicleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
     try {
         // const isAdmin = req?.user?.role === "admin" || "super-admin";
         // // console.log(isAdmin, "ata req");
@@ -90,8 +89,7 @@ const deleteVehicleController = (req, res, next) => __awaiter(void 0, void 0, vo
         //     message: "Unauthorized access",
         //   });
         // }
-        const id = (_b = req === null || req === void 0 ? void 0 : req.params) === null || _b === void 0 ? void 0 : _b.id;
-        const result = yield service_1.vehicleService.DeletevehicleService(id);
+        const result = yield service_1.vehicleService.DeletevehicleService(req.params.id);
         return (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
@@ -104,7 +102,7 @@ const deleteVehicleController = (req, res, next) => __awaiter(void 0, void 0, vo
     }
 });
 const updateVehicleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _b;
     try {
         // const isAdmin = req?.user?.role === "admin";
         // if (!isAdmin) {
@@ -114,7 +112,7 @@ const updateVehicleController = (req, res, next) => __awaiter(void 0, void 0, vo
         //     message: "Unauthorized access",
         //   });
         // }
-        const id = (_c = req === null || req === void 0 ? void 0 : req.params) === null || _c === void 0 ? void 0 : _c.id;
+        const id = (_b = req === null || req === void 0 ? void 0 : req.params) === null || _b === void 0 ? void 0 : _b.id;
         const data = req.body;
         const result = yield service_1.vehicleService.updateVehicleService(data, id);
         return (0, sendResponse_1.default)(res, {

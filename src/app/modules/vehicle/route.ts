@@ -10,8 +10,8 @@ const router = express.Router()
 
 router.post('/',validateRequest(vehicleValidation.createVehicle),vehicleController.createVehicleController )
 router.get('/',vehicleController.getAllVehicleController)
-router.get('/:id',vehicleController.getSingleVehicleController)
-router.delete('/:id',vehicleController.deleteVehicleController)
-router.patch('/:id',vehicleController.updateVehicleController)
+router.get('/single/:id',vehicleController.getSingleVehicleController)
+router.delete('/delete/:id',vehicleController.deleteVehicleController)
+router.patch('/update/:id',vehicleController.updateVehicleController)
 
 export const vehicleRouter = router
