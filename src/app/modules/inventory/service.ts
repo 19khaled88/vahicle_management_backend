@@ -1,8 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Inventory, Prisma, PrismaClient } from "@prisma/client";
 import ApiError from "../../../error/ApiError";
 import { IFilters, IPaginationOptions } from "../../../interfaces/paginationOptions";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
-import { inventory_fields_constant } from "./interface";
+import { IInventoryResponse, inventory_fields_constant } from "./interface";
+import { IGenericResponse } from "../../../interfaces/common";
 
 
 const prisma = new PrismaClient();
@@ -11,7 +12,7 @@ const prisma = new PrismaClient();
 const getAllInventoryService = async (
   paginationOptions: IPaginationOptions,
   filterOptions: IFilters
-) => {
+):Promise<IGenericResponse<IInventoryResponse[]>> => {
 
   const { searchTerm, ...filterData } = filterOptions;
   const { limit, page, skip } =
@@ -58,6 +59,17 @@ const getAllInventoryService = async (
           [paginationOptions.sortBy]: paginationOptions.sortOrder
         }
         : { createAt: 'asc' },
+
+    select:{
+      id:true,
+      accessory:true,
+      accessory_id:true,
+      description:true,
+      name:true,
+      quantity:true,
+      createAt:true,
+      updatedAt:true
+    }
   });
 
   const total = await prisma.inventory.count();
@@ -71,7 +83,7 @@ const getAllInventoryService = async (
   };
 };
 
-const singleInventorySerivce = async (id: string) => {
+const singleInventorySerivce = async (id: string):Promise<Inventory | null> => {
   const ifExist = await prisma.inventory.findFirst({
     where: {
       id: id
@@ -88,7 +100,7 @@ const singleInventorySerivce = async (id: string) => {
   return response
 }
 
-const updateInventoryService = async (id: string, payload: any) => {
+const updateInventoryService = async (id: string, payload: any):Promise<Inventory> => {
   const ifExist = await prisma.inventory.findFirst({
     where: {
       id: id
@@ -106,7 +118,7 @@ const updateInventoryService = async (id: string, payload: any) => {
   return response
 }
 
-const deleteInventoryService = async (id: string) => {
+const deleteInventoryService = async (id: string):Promise<Inventory> => {
   const ifExist = await prisma.inventory.findFirst({
     where: {
       id: id
