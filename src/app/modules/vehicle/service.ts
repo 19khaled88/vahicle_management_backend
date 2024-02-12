@@ -10,6 +10,9 @@ import { vehicleProfile_fields_constant } from './interface';
 
 const prisma = new PrismaClient();
 
+
+
+
 const createVehicleService = async (payload: any) => {
   const result = await prisma.vehicle.create({
     data: payload,
