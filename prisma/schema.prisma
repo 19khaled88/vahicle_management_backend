@@ -222,6 +222,8 @@ model ManageFuel {
 
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  
 }
 
 // Income model

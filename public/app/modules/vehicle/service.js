@@ -19,11 +19,15 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vehicleService = void 0;
 const client_1 = require("@prisma/client");
 const interface_1 = require("./interface");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const prisma = new client_1.PrismaClient();
 const createVehicleService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma.vehicle.create({
@@ -38,14 +42,12 @@ const getAllVehicleService = (paginatinOptions, filterOptions) => __awaiter(void
     //searching code
     if (searchTerm) {
         andConditions.push({
-            OR: interface_1.vehicleProfile_fields_constant.map(field => {
-                return {
-                    [field]: {
-                        contains: searchTerm,
-                        mode: 'insensitive',
-                    },
-                };
-            }),
+            OR: interface_1.vehicleProfile_fields_constant.map(field => ({
+                [field]: {
+                    contains: searchTerm,
+                    mode: 'insensitive',
+                }
+            })),
         });
     }
     //filtering code
@@ -82,6 +84,14 @@ const getAllVehicleService = (paginatinOptions, filterOptions) => __awaiter(void
     };
 });
 const getSingleVehicleService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.vehicle.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This data not found');
+    }
     const result = yield prisma.vehicle.findUnique({
         where: {
             id,
@@ -90,6 +100,14 @@ const getSingleVehicleService = (id) => __awaiter(void 0, void 0, void 0, functi
     return result;
 });
 const updateVehicleService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.vehicle.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This data not found');
+    }
     const result = yield prisma.vehicle.update({
         where: {
             id: id,
@@ -99,6 +117,14 @@ const updateVehicleService = (data, id) => __awaiter(void 0, void 0, void 0, fun
     return result;
 });
 const DeletevehicleService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.vehicle.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This data not found');
+    }
     const result = yield prisma.vehicle.delete({
         where: {
             id,
