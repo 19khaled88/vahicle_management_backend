@@ -1,15 +1,50 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Inventory, Prisma, PrismaClient } from "@prisma/client";
 import { IFilters, IPaginationOptions } from "../../../interfaces/paginationOptions";
 import { IGenericResponse } from "../../../interfaces/common";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { accessory_fields_constant } from "./interface";
+import ApiError from "../../../error/ApiError";
 
 const prisma = new PrismaClient();
 const createAccessoryService = async (payload: any) => {
-  const result = await prisma.accessory.create({
-    data: payload,
-  });
-  return result;
+
+  const response = await prisma.$transaction(async transactionClient=>{
+
+    const result = await transactionClient.accessory.create({
+      data: payload,
+    });
+
+    const ifExist = await transactionClient.inventory.findFirst({
+      where:{
+        name:result.accessory_name
+      }
+    })
+
+    if(result && ifExist){
+      const res = await transactionClient.inventory.create({
+        data: {
+          name:result.accessory_name,
+          accessory_id:result.id,
+          quantity:(ifExist?.quantity + result.quantity ),
+          description:result.description
+        }
+      })
+      return res
+    } else if(result && !ifExist){
+      const res = await transactionClient.inventory.create({
+        data: {
+          name:result.accessory_name,
+          accessory_id:result.id,
+          quantity:result.quantity,
+          description:result.description
+        }
+      })
+      return res
+    }
+
+    return result;
+  })
+  return response
 };
 
 // const getAllAccessoryService = async (
@@ -128,6 +163,15 @@ const getAllAccessoryService = async (
   };
 };
 const getSingleAccessoryService = async (id: string) => {
+  const ifExist = await prisma.accessory.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This kind of accessory data not available')
+  }
+
   const result = await prisma.accessory.findUnique({
     where: {
       id,
@@ -137,6 +181,14 @@ const getSingleAccessoryService = async (id: string) => {
 };
 
 const updateAccessoryService = async (data: any, id: string) => {
+  const ifExist = await prisma.accessory.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This kind of accessory data not available')
+  }
   const result = await prisma.accessory.update({
     where: {
       id: id,
@@ -147,6 +199,14 @@ const updateAccessoryService = async (data: any, id: string) => {
 };
 
 const DeleteAccessoryService = async (id: string) => {
+  const ifExist = await prisma.accessory.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This kind of accessory data not available')
+  }
   const result = await prisma.accessory.delete({
     where: {
       id,

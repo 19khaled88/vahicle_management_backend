@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.accessoryController = exports.getAllAccessoryController = void 0;
+exports.accessoryController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
+const paginationOptions_1 = require("../../../common/paginationOptions");
+const pick_1 = __importDefault(require("../../../shared/pick"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const service_1 = require("./service");
-const pick_1 = __importDefault(require("../../../shared/pick"));
-const paginationOptions_1 = require("../../../common/paginationOptions");
 const createAccessoryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield service_1.accessoryService.createAccessoryService(req.body);
@@ -85,7 +85,6 @@ const getAllAccessoryController = (req, res, next) => __awaiter(void 0, void 0, 
         return next(err);
     }
 });
-exports.getAllAccessoryController = getAllAccessoryController;
 const getSingleAccessoryController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
@@ -157,5 +156,5 @@ exports.accessoryController = {
     updateAccessoryController,
     deleteAccessoryController,
     getSingleAccessoryController,
-    getAllAccessoryController: exports.getAllAccessoryController
+    getAllAccessoryController
 };

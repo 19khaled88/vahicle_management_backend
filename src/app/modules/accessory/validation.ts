@@ -7,7 +7,7 @@ const AccessoryZodSchema = z.object({
     amount: z.number(),
     description: z.string().optional(),
     quantity: z.number(),
-    purchase_date: z.string().optional(),
+    purchase_date: z.string(),
     expire_date: z.string().optional(),
     createdAt: z.date().optional(),
     updatedAt: z.date().optional(),
