@@ -13,7 +13,10 @@ const router_1 = require("../modules/accessory/router");
 const router_2 = require("../modules/officeCost/router");
 const route_5 = require("../modules/driver_salary/route");
 const route_6 = require("../modules/trips_cost/route");
+<<<<<<< HEAD
+=======
 const route_7 = require("../modules/manage_fuel/route");
+>>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
 const rootRoute = express_1.default.Router();
 const ModuleRoute = [
     {
@@ -51,10 +54,13 @@ const ModuleRoute = [
     {
         path: '/trip-cost',
         routes: route_6.TripCostRouter
+<<<<<<< HEAD
+=======
     },
     {
         path: '/manage-fuel',
         routes: route_7.ManageFuelRouter
+>>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
     }
 ];
 ModuleRoute.forEach(routes => rootRoute.use(routes.path, routes.routes));

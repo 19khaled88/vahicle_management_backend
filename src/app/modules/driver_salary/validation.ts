@@ -2,7 +2,7 @@ import { z } from 'zod';
 const createDriverSalary = z.object({
     body: z.object({
         driver_id: z.string({
-            required_error: 'Driver is required'
+            required_error: 'Driver ID is required'
         }),
         amount: z.number({
             required_error: 'Amount is required'
@@ -13,8 +13,10 @@ const createDriverSalary = z.object({
         position: z.string({
             required_error: 'Position is required'
         }),
-        status: z.string({
-            required_error: 'Status is required'
+    
+        description: z.string().nullable().optional(),
+        status: z.enum(['PENDING', 'PROCESSING', 'DONE'], {
+            required_error: 'Status is required and must be one of "PENDING", "PROCESSING", or "DONE"'
         }),
     })
 });

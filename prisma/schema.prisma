@@ -134,7 +134,7 @@ model Accessory {
   id             String      @id @default(auto()) @map("_id") @db.ObjectId
   accessory_name String
   quantity       Int
-  purchase_data  String
+  purchase_date  String
   expire_date    String?
   amount         Float
   description    String? // Optional description of the accessory
@@ -145,7 +145,6 @@ model Accessory {
   @@map("accessories")
 }
 
-// salary
 model driverSalary {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   driver_id   String        @db.ObjectId // Foreign key referencing the employee receiving the salary
@@ -222,8 +221,6 @@ model ManageFuel {
 
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  
 }
 
 // Income model
@@ -314,7 +311,7 @@ model Maintenance {
 model InventoryRequest {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   title         String
-  createAt      DateTime        @default(now())
+  createdAt      DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   ManageRequest ManageRequest[]
 }
@@ -326,6 +323,13 @@ model ManageRequest {
   inventoryRequest     InventoryRequest @relation(fields: [inventory_request_id], references: [id])
   approve_status       RequestStatus    @default(PENDING)
   comment              String?
+  createdAt      DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+enum RequestStatus {
+  APPROVE
+  PENDING
+  REJECT
 }
 
 // vehicle type enum
@@ -335,11 +339,6 @@ enum VehicleType {
   SlippingBus
 }
 
-enum RequestStatus {
-  APPROVE
-  PENDING
-  REJECT
-}
 
 //fuel type enum
 enum FuelType {

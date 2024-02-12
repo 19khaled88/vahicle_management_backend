@@ -19,6 +19,13 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+<<<<<<< HEAD
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.officeCostService = void 0;
+const client_1 = require("@prisma/client");
+const interface_1 = require("./interface");
+const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+=======
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -28,6 +35,7 @@ const client_1 = require("@prisma/client");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const interface_1 = require("./interface");
+>>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
 const prisma = new client_1.PrismaClient();
 const createOfficeCosService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma.officeCost.create({
@@ -86,6 +94,8 @@ const getAllOfficeCosService = (paginatinOptions, filterOptions) => __awaiter(vo
     };
 });
 const getSingleOfficeCosService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+<<<<<<< HEAD
+=======
     const ifExist = yield prisma.officeCost.findFirst({
         where: {
             id: id
@@ -94,6 +104,7 @@ const getSingleOfficeCosService = (id) => __awaiter(void 0, void 0, void 0, func
     if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of office cost data not available');
     }
+>>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
     const result = yield prisma.officeCost.findUnique({
         where: {
             id,
@@ -102,6 +113,8 @@ const getSingleOfficeCosService = (id) => __awaiter(void 0, void 0, void 0, func
     return result;
 });
 const updateOfficeCosService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+<<<<<<< HEAD
+=======
     const ifExist = yield prisma.officeCost.findFirst({
         where: {
             id: id
@@ -110,6 +123,7 @@ const updateOfficeCosService = (data, id) => __awaiter(void 0, void 0, void 0, f
     if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of office cost data not available');
     }
+>>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
     const result = yield prisma.officeCost.update({
         where: {
             id: id,
@@ -119,6 +133,8 @@ const updateOfficeCosService = (data, id) => __awaiter(void 0, void 0, void 0, f
     return result;
 });
 const DeleteOfficeCostService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+<<<<<<< HEAD
+=======
     const ifExist = yield prisma.officeCost.findFirst({
         where: {
             id: id
@@ -127,6 +143,7 @@ const DeleteOfficeCostService = (id) => __awaiter(void 0, void 0, void 0, functi
     if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of office cost data not available');
     }
+>>>>>>> 88a1cd83bd826cbc889f34d82f094c5e091a7d28
     const result = yield prisma.officeCost.delete({
         where: {
             id,
