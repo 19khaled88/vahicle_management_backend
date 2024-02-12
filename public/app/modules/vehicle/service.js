@@ -25,9 +25,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vehicleService = void 0;
 const client_1 = require("@prisma/client");
-const interface_1 = require("./interface");
-const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
+const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+const interface_1 = require("./interface");
 const prisma = new client_1.PrismaClient();
 const createVehicleService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma.vehicle.create({
@@ -127,7 +127,7 @@ const DeletevehicleService = (id) => __awaiter(void 0, void 0, void 0, function*
     }
     const result = yield prisma.vehicle.delete({
         where: {
-            id,
+            id: id,
         },
     });
     return result;
