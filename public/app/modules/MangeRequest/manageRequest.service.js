@@ -23,26 +23,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.officeCostService = void 0;
+exports.manageRequestService = void 0;
 const client_1 = require("@prisma/client");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
-const interface_1 = require("./interface");
+const manageRequest_interface_1 = require("./manageRequest.interface");
 const prisma = new client_1.PrismaClient();
-const createOfficeCosService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma.officeCost.create({
+const createManageRequestService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield prisma.manageRequest.create({
         data: payload,
     });
-    return result;
+    return response;
 });
-const getAllOfficeCosService = (filterOptions, paginatinOptions) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllManageRequestService = (filterOptions, paginatinOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
     const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginatinOptions);
     const andConditions = [];
     //searching code
     if (searchTerm) {
         andConditions.push({
-            OR: interface_1.officeCost_fields_constant.map((field) => {
+            OR: manageRequest_interface_1.Manage_request_fields_constant.map((field) => {
                 return {
                     [field]: {
                         contains: searchTerm,
@@ -63,7 +63,7 @@ const getAllOfficeCosService = (filterOptions, paginatinOptions) => __awaiter(vo
         });
     }
     const whereCondition = andConditions.length > 0 ? { AND: andConditions } : {};
-    const result = yield prisma.officeCost.findMany({
+    const result = yield prisma.manageRequest.findMany({
         where: whereCondition,
         skip,
         take: limit,
@@ -72,10 +72,11 @@ const getAllOfficeCosService = (filterOptions, paginatinOptions) => __awaiter(vo
                 [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
             }
             : { createdAt: "asc" },
-        // select: {
-        // },
+        include: {
+            inventoryRequest: true
+        }
     });
-    const total = yield prisma.officeCost.count();
+    const total = yield prisma.manageRequest.count();
     return {
         meta: {
             limit,
@@ -85,32 +86,32 @@ const getAllOfficeCosService = (filterOptions, paginatinOptions) => __awaiter(vo
         data: result,
     };
 });
-const getSingleOfficeCosService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.officeCost.findFirst({
+const getSingleManageRequestService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.manageRequest.findFirst({
         where: {
             id: id
         }
     });
-    if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of office cost data not available');
+    if (ifExist) {
+        throw new ApiError_1.default(400, 'This kind of manage request not available');
     }
-    const result = yield prisma.officeCost.findUnique({
+    const result = yield prisma.manageRequest.findUnique({
         where: {
             id,
         },
     });
     return result;
 });
-const updateOfficeCosService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.officeCost.findFirst({
+const updateManageRequestService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.manageRequest.findFirst({
         where: {
             id: id
         }
     });
-    if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of office cost data not available');
+    if (ifExist) {
+        throw new ApiError_1.default(400, 'This kind of manage request not available');
     }
-    const result = yield prisma.officeCost.update({
+    const result = yield prisma.manageRequest.update({
         where: {
             id: id,
         },
@@ -118,26 +119,26 @@ const updateOfficeCosService = (data, id) => __awaiter(void 0, void 0, void 0, f
     });
     return result;
 });
-const DeleteOfficeCostService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.officeCost.findFirst({
+const DeleteManageRequestService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.manageRequest.findFirst({
         where: {
             id: id
         }
     });
-    if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of office cost data not available');
+    if (ifExist) {
+        throw new ApiError_1.default(400, 'This kind of manage request not available');
     }
-    const result = yield prisma.officeCost.delete({
+    const result = yield prisma.manageRequest.delete({
         where: {
             id,
         },
     });
     return result;
 });
-exports.officeCostService = {
-    DeleteOfficeCostService,
-    updateOfficeCosService,
-    getSingleOfficeCosService,
-    getAllOfficeCosService,
-    createOfficeCosService,
+exports.manageRequestService = {
+    createManageRequestService,
+    getAllManageRequestService,
+    getSingleManageRequestService,
+    DeleteManageRequestService,
+    updateManageRequestService,
 };

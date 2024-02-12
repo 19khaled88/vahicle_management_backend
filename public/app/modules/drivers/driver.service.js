@@ -28,8 +28,6 @@ const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const driver_constant_1 = require("./driver.constant");
 const insertIntoDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    // :Promise<Driver>
-    // const response = await MakeUserId('driver')
     const result = yield prisma_1.default.driver.create({
         data,
     });

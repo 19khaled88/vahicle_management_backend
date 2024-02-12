@@ -1,15 +1,14 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import ApiError from "../../../error/ApiError";
+import { paginationHelpers } from "../../../helpers/paginationHelpers";
+import { IGenericResponse } from "../../../interfaces/common";
 import {
   IFilters,
   IPaginationOptions,
 } from "../../../interfaces/paginationOptions";
-import { IGenericResponse } from "../../../interfaces/common";
 import {
-  IInventoryRequestRespons,
-  inventory_request_fields_constant,
+  inventory_request_fields_constant
 } from "./inventoryRequest.interface";
-import { paginationHelpers } from "../../../helpers/paginationHelpers";
-import { string } from "zod";
 
 const prisma = new PrismaClient();
 
@@ -79,6 +78,14 @@ const getAllInventoryRequestService = async (
 };
 
 const getSingleInventoryRequestService = async (id: string) => {
+  const ifExist = await prisma.inventoryRequest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (ifExist) {
+    throw new ApiError(400, 'This kind of manage request not available')
+  }
   const result = await prisma.inventoryRequest.findUnique({
     where: {
       id,
@@ -88,6 +95,14 @@ const getSingleInventoryRequestService = async (id: string) => {
 };
 
 const updateInventoryRequestService = async (data: any, id: string) => {
+  const ifExist = await prisma.inventoryRequest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (ifExist) {
+    throw new ApiError(400, 'This kind of manage request not available')
+  }
   const result = await prisma.inventoryRequest.update({
     where: {
       id: id,
@@ -98,6 +113,14 @@ const updateInventoryRequestService = async (data: any, id: string) => {
 };
 
 const DeleteInventoryRequestService = async (id: string) => {
+  const ifExist = await prisma.inventoryRequest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (ifExist) {
+    throw new ApiError(400, 'This kind of manage request not available')
+  }
   const result = await prisma.inventoryRequest.delete({
     where: {
       id,

@@ -1,12 +1,12 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { IGenericResponse } from "../../../interfaces/common";
 import {
   IFilters,
   IPaginationOptions,
 } from "../../../interfaces/paginationOptions";
-import { IGenericResponse } from "../../../interfaces/common";
 
+import ApiError from "../../../error/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
-import { string } from "zod";
 import { Manage_request_fields_constant } from "./manageRequest.interface";
 
 const prisma = new PrismaClient();
@@ -79,6 +79,15 @@ include:{
 };
 
 const getSingleManageRequestService = async (id: string) => {
+
+  const ifExist = await prisma.manageRequest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (ifExist) {
+    throw new ApiError(400, 'This kind of manage request not available')
+  }
   const result = await prisma.manageRequest.findUnique({
     where: {
       id,
@@ -88,6 +97,14 @@ const getSingleManageRequestService = async (id: string) => {
 };
 
 const updateManageRequestService = async (data: any, id: string) => {
+  const ifExist = await prisma.manageRequest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (ifExist) {
+    throw new ApiError(400, 'This kind of manage request not available')
+  }
   const result = await prisma.manageRequest.update({
     where: {
       id: id,
@@ -98,6 +115,14 @@ const updateManageRequestService = async (data: any, id: string) => {
 };
 
 const DeleteManageRequestService = async (id: string) => {
+  const ifExist = await prisma.manageRequest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (ifExist) {
+    throw new ApiError(400, 'This kind of manage request not available')
+  }
   const result = await prisma.manageRequest.delete({
     where: {
       id,

@@ -31,29 +31,85 @@ const createAccessoryService = (payload) => __awaiter(void 0, void 0, void 0, fu
     });
     return result;
 });
-const getAllAccessoryService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
-    const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
-    const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginatinOptions);
+// const getAllAccessoryService = async (
+//   paginatinOptions: IPaginationOptions,
+//   filterOptions: IFilters
+// ): Promise<IGenericResponse<any>> =>
+//   // : Promise<IGenericResponse<IUserResponse[]>> =>
+//   {
+//     const { searchTerm, ...filterData } = filterOptions;
+//     const { limit, page, skip } =
+//       paginationHelpers.calculatePagination(paginatinOptions);
+//     const andConditions = [];
+//     //searching code
+//     if (searchTerm) {
+//       andConditions.push({
+//         OR: accessory_fields_constant.map(field => {
+//           return {
+//             [field]: {
+//               contains: searchTerm,
+//               mode: 'insensitive',
+//             },
+//           };
+//         }),
+//       });
+//     }
+//     //filtering code
+//     if (Object.keys(filterData).length > 0) {
+//       andConditions.push({
+//         AND: Object.keys(filterData).map(key => ({
+//           [key]: {
+//             equals: (filterData as any)[key],
+//           },
+//         })),
+//       });
+//     }
+//     const whereCondition: Prisma.AccessoryWhereInput =
+//       andConditions.length > 0 ? { AND: andConditions } : {};
+//     const result = await prisma.accessory.findMany({
+//       where: whereCondition,
+//       skip,
+//       take: limit,
+//       orderBy:
+//         paginatinOptions.sortBy && paginatinOptions.sortOrder
+//           ? {
+//               [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
+//             }
+//           : { createdAt: 'asc' },
+//       // select: {
+//       // },
+//     });
+//     const total = await prisma.accessory.count();
+//     return {
+//       meta: {
+//         limit,
+//         page,
+//         total,
+//       },
+//       data: result,
+//     };
+//   };
+const getAllAccessoryService = (paginationOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]); // Specify IFilters type explicitly for filterData
+    const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginationOptions);
     const andConditions = [];
-    //searching code
+    // Searching code
     if (searchTerm) {
         andConditions.push({
-            OR: interface_1.accessory_fields_constant.map(field => {
-                return {
-                    [field]: {
-                        contains: searchTerm,
-                        mode: 'insensitive',
-                    },
-                };
-            }),
+            OR: interface_1.accessory_fields_constant.map(field => ({
+                [field]: {
+                    contains: searchTerm,
+                    mode: 'insensitive',
+                },
+            })),
         });
     }
-    //filtering code
+    // Filtering code
     if (Object.keys(filterData).length > 0) {
         andConditions.push({
             AND: Object.keys(filterData).map(key => ({
                 [key]: {
-                    equals: filterData[key],
+                    equals: filterData[key], // Use filterData[key] instead of (filterData as any)[key]
                 },
             })),
         });
@@ -63,13 +119,11 @@ const getAllAccessoryService = (paginatinOptions, filterOptions) => __awaiter(vo
         where: whereCondition,
         skip,
         take: limit,
-        orderBy: paginatinOptions.sortBy && paginatinOptions.sortOrder
+        orderBy: paginationOptions.sortBy && paginationOptions.sortOrder
             ? {
-                [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
+                [paginationOptions.sortBy]: paginationOptions.sortOrder,
             }
             : { createdAt: 'asc' },
-        // select: {
-        // },
     });
     const total = yield prisma.accessory.count();
     return {

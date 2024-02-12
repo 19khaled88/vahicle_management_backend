@@ -311,7 +311,7 @@ model Maintenance {
 model InventoryRequest {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   title         String
-  createdAt      DateTime        @default(now())
+  createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   ManageRequest ManageRequest[]
 }
@@ -323,9 +323,10 @@ model ManageRequest {
   inventoryRequest     InventoryRequest @relation(fields: [inventory_request_id], references: [id])
   approve_status       RequestStatus    @default(PENDING)
   comment              String?
-  createdAt      DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
 }
+
 enum RequestStatus {
   APPROVE
   PENDING
@@ -338,7 +339,6 @@ enum VehicleType {
   NonAC
   SlippingBus
 }
-
 
 //fuel type enum
 enum FuelType {
