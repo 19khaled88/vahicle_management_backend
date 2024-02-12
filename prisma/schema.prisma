@@ -186,7 +186,7 @@ model Inventory {
   accessory_id String    @db.ObjectId
   accessory    Accessory @relation(fields: [accessory_id], references: [id])
   quantity     Int
-  description  String
+  description  String?
   createAt     DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   costs        Cost[]
