@@ -1,8 +1,9 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { officeCost_fields_constant } from "./interface";
+import ApiError from "../../../error/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IFilters, IPaginationOptions } from "../../../interfaces/paginationOptions";
+import { officeCost_fields_constant } from "./interface";
 
 const prisma = new PrismaClient();
 const createOfficeCosService = async (payload: any) => {
@@ -75,6 +76,15 @@ const getAllOfficeCosService = async (
   };
 
 const getSingleOfficeCosService = async (id: string) => {
+
+  const ifExist = await prisma.officeCost.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This kind of office cost data not available')
+  }
   const result = await prisma.officeCost.findUnique({
     where: {
       id,
@@ -84,6 +94,14 @@ const getSingleOfficeCosService = async (id: string) => {
 };
 
 const updateOfficeCosService = async (data: any, id: string) => {
+  const ifExist = await prisma.officeCost.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This kind of office cost data not available')
+  }
   const result = await prisma.officeCost.update({
     where: {
       id: id,
@@ -94,6 +112,14 @@ const updateOfficeCosService = async (data: any, id: string) => {
 };
 
 const DeleteOfficeCostService = async (id: string) => {
+  const ifExist = await prisma.officeCost.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This kind of office cost data not available')
+  }
   const result = await prisma.officeCost.delete({
     where: {
       id,
@@ -101,6 +127,7 @@ const DeleteOfficeCostService = async (id: string) => {
   });
   return result;
 };
+
 
 export const officeCostService = {
   DeleteOfficeCostService,
