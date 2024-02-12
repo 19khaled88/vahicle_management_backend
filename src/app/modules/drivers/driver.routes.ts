@@ -1,20 +1,13 @@
 import express from "express";
-import { DriverController } from "./driver.controller";
 import validateRequest from "../../middlewares/validateUser";
+import { DriverController } from "./driver.controller";
 import { driverValidationSchema } from "./driver.validation";
 const router = express.Router();
 
+router.post("/", validateRequest(driverValidationSchema.createDriver), DriverController.insertIntoDB);
 router.get("/", DriverController.getAllFromDB);
-router.get("/:id", DriverController.getByIdFromDB);
-
-router.post(
-  "/",
-  validateRequest(driverValidationSchema.createDriver),
-  DriverController.insertIntoDB
-);
-
-router.patch("/:id", DriverController.updateOneInDB);
-
-router.delete("/:id", DriverController.deleteByIdFromDB);
+router.get("/single/:id", DriverController.getByIdFromDB);
+router.patch("/update/:id", DriverController.updateOneInDB);
+router.delete("/delete/:id", DriverController.deleteByIdFromDB);
 
 export const DriverRoutes = router;

@@ -81,8 +81,8 @@ const deleteVehicleController: RequestHandler = async (req, res, next) => {
     //     message: "Unauthorized access",
     //   });
     // }
-    const id = req?.params?.id;
-    const result = await vehicleService.DeletevehicleService(id);
+  
+    const result = await vehicleService.DeletevehicleService(req.params.id);
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

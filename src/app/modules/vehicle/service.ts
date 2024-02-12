@@ -122,6 +122,7 @@ const updateVehicleService = async (data: any, id: string) => {
 };
 
 const DeletevehicleService = async (id: string) => {
+  
   const ifExist = await prisma.vehicle.findFirst({
     where:{
       id:id
