@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vehicleController = void 0;
-const service_1 = require("./service");
-const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const http_status_1 = __importDefault(require("http-status"));
 const client_1 = require("@prisma/client");
-const pick_1 = __importDefault(require("../../../shared/pick"));
+const http_status_1 = __importDefault(require("http-status"));
 const paginationOptions_1 = require("../../../common/paginationOptions");
+const pick_1 = __importDefault(require("../../../shared/pick"));
+const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
+const service_1 = require("./service");
 const prisma = new client_1.PrismaClient();
 const createVehicleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -98,7 +98,7 @@ const deleteVehicleController = (req, res, next) => __awaiter(void 0, void 0, vo
         });
     }
     catch (err) {
-        return next(err);
+        next(err);
     }
 });
 const updateVehicleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
