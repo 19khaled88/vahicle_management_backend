@@ -19,17 +19,51 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.accessoryService = void 0;
 const client_1 = require("@prisma/client");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const interface_1 = require("./interface");
+const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const prisma = new client_1.PrismaClient();
 const createAccessoryService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma.accessory.create({
-        data: payload,
-    });
-    return result;
+    const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield transactionClient.accessory.create({
+            data: payload,
+        });
+        const ifExist = yield transactionClient.inventory.findFirst({
+            where: {
+                name: result.accessory_name
+            }
+        });
+        if (result && ifExist) {
+            const res = yield transactionClient.inventory.create({
+                data: {
+                    name: result.accessory_name,
+                    accessory_id: result.id,
+                    quantity: ((ifExist === null || ifExist === void 0 ? void 0 : ifExist.quantity) + result.quantity),
+                    description: result.description
+                }
+            });
+            return res;
+        }
+        else if (result && !ifExist) {
+            const res = yield transactionClient.inventory.create({
+                data: {
+                    name: result.accessory_name,
+                    accessory_id: result.id,
+                    quantity: result.quantity,
+                    description: result.description
+                }
+            });
+            return res;
+        }
+        return result;
+    }));
+    return response;
 });
 // const getAllAccessoryService = async (
 //   paginatinOptions: IPaginationOptions,
@@ -136,6 +170,14 @@ const getAllAccessoryService = (paginationOptions, filterOptions) => __awaiter(v
     };
 });
 const getSingleAccessoryService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.accessory.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This kind of accessory data not available');
+    }
     const result = yield prisma.accessory.findUnique({
         where: {
             id,
@@ -144,6 +186,14 @@ const getSingleAccessoryService = (id) => __awaiter(void 0, void 0, void 0, func
     return result;
 });
 const updateAccessoryService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.accessory.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This kind of accessory data not available');
+    }
     const result = yield prisma.accessory.update({
         where: {
             id: id,
@@ -153,6 +203,14 @@ const updateAccessoryService = (data, id) => __awaiter(void 0, void 0, void 0, f
     return result;
 });
 const DeleteAccessoryService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.accessory.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This kind of accessory data not available');
+    }
     const result = yield prisma.accessory.delete({
         where: {
             id,
