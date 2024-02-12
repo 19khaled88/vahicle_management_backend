@@ -127,8 +127,8 @@ const DeletevehicleService = (id) => __awaiter(void 0, void 0, void 0, function*
     }
     const result = yield prisma.vehicle.delete({
         where: {
-            id: id,
-        },
+            id: id
+        }
     });
     return result;
 });

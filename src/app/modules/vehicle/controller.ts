@@ -1,10 +1,10 @@
-import { RequestHandler } from 'express';
-import { vehicleService } from './service';
-import sendResponse from '../../../shared/sendResponse';
-import httpStatus from 'http-status';
 import { PrismaClient } from '@prisma/client';
-import pick from '../../../shared/pick';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
+import httpStatus from 'http-status';
 import { paginationOptionFields } from '../../../common/paginationOptions';
+import pick from '../../../shared/pick';
+import sendResponse from '../../../shared/sendResponse';
+import { vehicleService } from './service';
 
 const prisma = new PrismaClient();
 
@@ -70,7 +70,7 @@ const getSingleVehicleController: RequestHandler = async (
     return next(err);
   }
 };
-const deleteVehicleController: RequestHandler = async (req, res, next) => {
+const deleteVehicleController= async (req:Request, res:Response, next:NextFunction) => {
   try {
     // const isAdmin = req?.user?.role === "admin" || "super-admin";
     // // console.log(isAdmin, "ata req");
@@ -81,7 +81,7 @@ const deleteVehicleController: RequestHandler = async (req, res, next) => {
     //     message: "Unauthorized access",
     //   });
     // }
-  
+
     const result = await vehicleService.DeletevehicleService(req.params.id);
     return sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -90,7 +90,7 @@ const deleteVehicleController: RequestHandler = async (req, res, next) => {
       data: result,
     });
   } catch (err) {
-    return next(err);
+    next(err);
   }
 };
 const updateVehicleController: RequestHandler = async (req, res, next) => {

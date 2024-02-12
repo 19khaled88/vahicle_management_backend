@@ -26,7 +26,7 @@ const getAllVehicleService = async (
   const { searchTerm, ...filterData } = filterOptions;
   const { limit, page, skip } =
     paginationHelpers.calculatePagination(paginatinOptions);
-    
+
   const andConditions = [];
 
   //searching code
@@ -57,7 +57,7 @@ const getAllVehicleService = async (
     andConditions.length > 0 ? { AND: andConditions } : {};
 
 
- 
+
 
   const result = await prisma.vehicle.findMany({
     where: whereCondition,
@@ -87,12 +87,12 @@ const getAllVehicleService = async (
 
 const getSingleVehicleService = async (id: string) => {
   const ifExist = await prisma.vehicle.findFirst({
-    where:{
-      id:id
+    where: {
+      id: id
     }
   })
-  if(!ifExist){
-    throw new ApiError(400,'This data not found')
+  if (!ifExist) {
+    throw new ApiError(400, 'This data not found')
   }
   const result = await prisma.vehicle.findUnique({
     where: {
@@ -104,12 +104,12 @@ const getSingleVehicleService = async (id: string) => {
 
 const updateVehicleService = async (data: any, id: string) => {
   const ifExist = await prisma.vehicle.findFirst({
-    where:{
-      id:id
+    where: {
+      id: id
     }
   })
-  if(!ifExist){
-    throw new ApiError(400,'This data not found')
+  if (!ifExist) {
+    throw new ApiError(400, 'This data not found')
   }
 
   const result = await prisma.vehicle.update({
@@ -122,21 +122,21 @@ const updateVehicleService = async (data: any, id: string) => {
 };
 
 const DeletevehicleService = async (id: string) => {
-  
+
   const ifExist = await prisma.vehicle.findFirst({
-    where:{
-      id:id
+    where: {
+      id: id
     }
   })
-  if(!ifExist){
-    throw new ApiError(400,'This data not found')
+  if (!ifExist) {
+    throw new ApiError(400, 'This data not found')
   }
   const result = await prisma.vehicle.delete({
     where: {
-      id:id,
-    },
-  });
-  return result;
+      id: id
+    }
+  })
+  return result
 };
 
 export const vehicleService = {
