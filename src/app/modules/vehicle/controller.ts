@@ -72,6 +72,15 @@ const getSingleVehicleController: RequestHandler = async (
 };
 const deleteVehicleController= async (req:Request, res:Response, next:NextFunction) => {
   try {
+    const result = await vehicleService.DeletevehicleService(req.params.id);
+    return sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Vehicle deleted successful',
+      data: result,
+    });
+
+    
     // const isAdmin = req?.user?.role === "admin" || "super-admin";
     // // console.log(isAdmin, "ata req");
     // if (!isAdmin) {
@@ -82,13 +91,7 @@ const deleteVehicleController= async (req:Request, res:Response, next:NextFuncti
     //   });
     // }
 
-    const result = await vehicleService.DeletevehicleService(req.params.id);
-    return sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Vehicle deleted successful',
-      data: result,
-    });
+   
   } catch (err) {
     next(err);
   }
