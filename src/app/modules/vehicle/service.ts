@@ -1,12 +1,12 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import ApiError from '../../../error/ApiError';
+import { paginationHelpers } from '../../../helpers/paginationHelpers';
+import { IGenericResponse } from '../../../interfaces/common';
 import {
   IFilters,
   IPaginationOptions,
 } from '../../../interfaces/paginationOptions';
-import { IGenericResponse } from '../../../interfaces/common';
-import { ÏVehicles, vehicleProfile_fields_constant } from './interface';
-import { paginationHelpers } from '../../../helpers/paginationHelpers';
-import ApiError from '../../../error/ApiError';
+import { vehicleProfile_fields_constant } from './interface';
 
 const prisma = new PrismaClient();
 
@@ -132,7 +132,7 @@ const DeletevehicleService = async (id: string) => {
   }
   const result = await prisma.vehicle.delete({
     where: {
-      id,
+      id:id,
     },
   });
   return result;
