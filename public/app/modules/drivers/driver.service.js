@@ -27,7 +27,16 @@ exports.DriverService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const driver_constant_1 = require("./driver.constant");
+const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const insertIntoDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma_1.default.driver.findFirst({
+        where: {
+            email: data.email
+        }
+    });
+    if (ifExist) {
+        throw new ApiError_1.default(400, 'data with the same mail exist');
+    }
     const result = yield prisma_1.default.driver.create({
         data,
     });
