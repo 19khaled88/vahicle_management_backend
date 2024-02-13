@@ -73,30 +73,8 @@ const getAllTripService = async (
       passenger_count: true,
       trip_rent: true,
       vehicle_id: true,
-      vehicle: {
-        select: {
-          id: true,
-          brand: true,
-          color: true,
-          fuelType: true,
-          mileage: true,
-          model: true,
-          vehicleType: true
-        }
-      },
       driver_id: true,
-      driver: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          avatar: true,
-          address: true,
-          phone: true,
-          experience: true
-
-        }
-      },
+      tripCosts:true,
       costs: true
     }
 
