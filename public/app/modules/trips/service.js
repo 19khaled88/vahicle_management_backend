@@ -84,7 +84,7 @@ const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0,
             driver_id: true,
             tripCosts: true,
             costs: true
-        }
+        },
     });
     const total = yield prisma.trip.count();
     return {

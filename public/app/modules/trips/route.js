@@ -11,7 +11,7 @@ const validation_1 = require("./validation");
 const router = express_1.default.Router();
 router.post('/create', (0, validateUser_1.default)(validation_1.tripValidation.createTrip), controller_1.tripControllers.createController);
 router.get('/list', controller_1.tripControllers.getAllController);
-router.get('/single/:id', controller_1.tripControllers.getAllController);
+router.get('/single/:id', controller_1.tripControllers.singleTripController);
 router.delete('/delete/:id', controller_1.tripControllers.deleteTripController);
 router.patch('/update/:id', controller_1.tripControllers.updateTripController);
 exports.TripRouter = router;
