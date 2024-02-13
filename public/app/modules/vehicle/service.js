@@ -117,20 +117,21 @@ const updateVehicleService = (data, id) => __awaiter(void 0, void 0, void 0, fun
     return result;
 });
 const DeletevehicleService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.vehicle.findFirst({
-        where: {
-            id: id
-        }
-    });
-    if (!ifExist) {
-        throw new ApiError_1.default(400, 'This data not found');
-    }
-    const result = yield prisma.vehicle.delete({
-        where: {
-            id: id
-        }
-    });
-    return result;
+    // const ifExist = await prisma.vehicle.findFirst({
+    //   where: {
+    //     id: id
+    //   }
+    // })
+    // if (!ifExist) {
+    //   throw new ApiError(400, 'This data not found')
+    // }
+    // const result = await prisma.vehicle.delete({
+    //   where: {
+    //     id: id
+    //   }
+    // })
+    // return result
+    return id;
 });
 exports.vehicleService = {
     createVehicleService,
