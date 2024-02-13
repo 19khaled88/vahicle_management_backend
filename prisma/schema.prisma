@@ -53,6 +53,25 @@ model User {
   @@map("users")
 }
 
+// model User {
+//   id        String       @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   email     String       @unique
+//   password  String
+//   phone     String
+//   avatar    String?
+//   role      RoleEnumType @default(USER)
+//   address   String
+//   location  String
+//   createAt  DateTime     @default(now())
+//   updatedAt DateTime     @updatedAt
+
+//   vehicleProfiles VehicleProfile[]
+//   salaries        Salary[]
+
+//   @@map("users")
+// }
+
 // Vehicle model
 model Vehicle {
   id               String       @id @default(auto()) @map("_id") @db.ObjectId
@@ -239,6 +258,16 @@ model Income {
   @@map("incomes")
 }
 
+// Manaager model 
+model Manager {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  email      String @unique
+  phone      String
+  avatar     String
+  experience String
+}
+
 // Driver model
 model Driver {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
@@ -256,6 +285,23 @@ model Driver {
   trips         Trip[]
   driverSalarys driverSalary[]
 }
+
+// model Driver {
+//   id         String @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   email      String @unique
+//   phone      String
+//   avatar     String
+//   experience String
+//   nid        String
+//   license_no String
+//   address    String
+
+//   createAt      DateTime       @default(now())
+//   updatedAt     DateTime       @updatedAt
+//   trips         Trip[]
+//   driverSalarys driverSalary[]
+// }
 
 // Vehicle model
 model VehicleProfile {
