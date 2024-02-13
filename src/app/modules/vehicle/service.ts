@@ -124,23 +124,24 @@ const updateVehicleService = async (data: any, id: string) => {
   return result;
 };
 
-const DeletevehicleService = async (id: string) => {
+const deletevehicleService = async (id: string) => {
 
-  // const ifExist = await prisma.vehicle.findFirst({
-  //   where: {
-  //     id: id
-  //   }
-  // })
-  // if (!ifExist) {
-  //   throw new ApiError(400, 'This data not found')
-  // }
+  const ifExist = await prisma.vehicle.findFirst({
+    where: {
+      id: id
+    }
+  })
+  if (!ifExist) {
+    throw new ApiError(400, 'This data not found')
+  }
+  return ifExist
   // const result = await prisma.vehicle.delete({
   //   where: {
   //     id: id
   //   }
   // })
   // return result
-  return id
+  
 };
 
 export const vehicleService = {
@@ -148,5 +149,5 @@ export const vehicleService = {
   getSingleVehicleService,
   getAllVehicleService,
   updateVehicleService,
-  DeletevehicleService,
+  deletevehicleService,
 };
