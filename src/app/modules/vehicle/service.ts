@@ -72,9 +72,29 @@ const getAllVehicleService = async (
           [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
         }
         : { createAt: 'asc' },
-    // select: {
-
-    // },
+    select: {
+      brand:true,
+      color:true,
+      fuelType:true,
+      manageFuels:true,
+      mileage:true,
+      model:true,
+      price:true,
+      purchaseDate:true,
+      registrationDate:true,
+      registrationNo:true,
+      seatCapacity:true,
+      tax:true,
+      vehicleType:true,
+      createAt:true,
+      updatedAt:true,
+      trips:{
+        select:{
+          costs:true,
+          driver:true
+        }
+      }
+    },
   });
   const total = await prisma.vehicle.count();
 
