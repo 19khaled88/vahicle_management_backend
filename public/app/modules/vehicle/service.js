@@ -125,13 +125,12 @@ const deletevehicleService = (id) => __awaiter(void 0, void 0, void 0, function*
     if (!ifExist) {
         throw new ApiError_1.default(400, 'This data not found');
     }
-    return ifExist;
-    // const result = await prisma.vehicle.delete({
-    //   where: {
-    //     id: id
-    //   }
-    // })
-    // return result
+    const res = yield prisma.vehicle.delete({
+        where: {
+            id: id
+        }
+    });
+    return res;
 });
 exports.vehicleService = {
     createVehicleService,
