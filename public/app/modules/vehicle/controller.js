@@ -79,14 +79,13 @@ const getSingleVehicleController = (req, res, next) => __awaiter(void 0, void 0,
     }
 });
 const deleteVehicleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const responseId = req.params.id;
     try {
-        const result = yield service_1.vehicleService.DeletevehicleService(req.params.id);
+        const result = yield service_1.vehicleService.deletevehicleService(req.params.id);
         return (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
             message: 'Vehicle deleted successful',
-            data: { 'service Id': result, 'controller Id': responseId },
+            data: result,
         });
         // const isAdmin = req?.user?.role === "admin" || "super-admin";
         // // console.log(isAdmin, "ata req");

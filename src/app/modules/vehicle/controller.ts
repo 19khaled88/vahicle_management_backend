@@ -71,14 +71,14 @@ const getSingleVehicleController: RequestHandler = async (
   }
 };
 const deleteVehicleController= async (req:Request, res:Response, next:NextFunction) => {
-  const responseId = req.params.id
+  
   try {
-    const result = await vehicleService.DeletevehicleService(req.params.id);
+    const result = await vehicleService.deletevehicleService(req.params.id);
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Vehicle deleted successful',
-      data: {'service Id':result, 'controller Id':responseId},
+      data: result,
     });
 
 
