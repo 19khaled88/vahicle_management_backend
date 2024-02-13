@@ -6,8 +6,19 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { driverSearchableFields } from "./driver.constant";
 import MakeUserId from "../../../shared/create_id";
+import ApiError from "../../../error/ApiError";
 
 const insertIntoDB = async (data: Driver): Promise<Driver> => {
+
+  const ifExist = await prisma.driver.findFirst({
+    where:{
+      email:data.email
+    }
+  })
+
+  if(ifExist){
+    throw new ApiError(400,'data with the same mail exist')
+  }
  
   const result = await prisma.driver.create({
     data,
