@@ -82,15 +82,15 @@ const getAllTripCostService = (paginatinOptions, filterOptions) => __awaiter(voi
             startLocation: true,
             description: true,
             trip_id: true,
-            trip: {
-                select: {
-                    driver: true,
-                    costs: true,
-                    passenger_count: true,
-                    trip_rent: true,
-                    vehicle: true,
-                }
-            },
+            // trip: {
+            //   select: {
+            //     driver:true,
+            //     costs:true,
+            //     passenger_count:true,
+            //     trip_rent:true,
+            //     vehicle:true,
+            //   }
+            // },
             createdAt: true,
             updatedAt: true,
         }
