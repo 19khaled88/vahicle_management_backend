@@ -74,9 +74,10 @@ const getAllTripService = async (
       trip_rent: true,
       vehicle_id: true,
       driver_id: true,
+      
       tripCosts:true,
       costs: true
-    }
+    },
 
   })
   const total = await prisma.trip.count();
