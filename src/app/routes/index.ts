@@ -13,6 +13,7 @@ import { inventoryRequestRouter } from '../modules/InventoryRequest/inventoryReq
 import { manageRequestRouter } from '../modules/MangeRequest/manageRequest.route';
 import { ManageFuelRouter } from '../modules/manage_fuel/route';
 import { InventoryRouter } from '../modules/inventory/route';
+import { SpecialRouter } from '../modules/specialApi/route';
 const rootRoute = express.Router()
 
 
@@ -69,6 +70,11 @@ const ModuleRoute = [
     {
         path:'/inventory',
         routes:InventoryRouter
+    }
+    ,
+    {
+        path:'/vehicle-driver',
+        routes:SpecialRouter
     }
 
 
