@@ -113,9 +113,9 @@ model Trip {
 
   //relationships 
   vehicle_id String     @db.ObjectId
-  vehicle    Vehicle    @relation(fields: [vehicle_id], references: [id])
+  vehicle    Vehicle    @relation(fields: [vehicle_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   driver_id  String     @db.ObjectId
-  driver     Driver     @relation(fields: [driver_id], references: [id])
+  driver     Driver     @relation(fields: [driver_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   costs      Cost[]
   tripCosts  TripCost[]
 
@@ -133,7 +133,7 @@ model TripCost {
   startLocation String
   description   String?
   trip_id       String   @db.ObjectId
-  trip          Trip     @relation(fields: [trip_id], references: [id])
+  trip          Trip     @relation(fields: [trip_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -176,7 +176,7 @@ model driverSalary {
   position    String
   description String? // Optional description of the salary
   status      SalaryProcess
-  driver      Driver        @relation(fields: [driver_id], references: [id])
+  driver      Driver        @relation(fields: [driver_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt   DateTime      @default(now()) // Timestamp when the record was created
   updatedAt   DateTime      @updatedAt // Timestamp when the record was last updated
 
@@ -235,7 +235,7 @@ model Salary {
 model ManageFuel {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   vehicle_id     String   @db.ObjectId
-  vehicle        Vehicle  @relation(fields: [vehicle_id], references: [id])
+  vehicle        Vehicle  @relation(fields: [vehicle_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fuel_type      FuelType
   invoice_number Int
   purchase_date  DateTime
@@ -372,7 +372,7 @@ model InventoryRequest {
 model ManageRequest {
   id                   String           @id @default(auto()) @map("_id") @db.ObjectId
   inventory_request_id String           @db.ObjectId
-  inventoryRequest     InventoryRequest @relation(fields: [inventory_request_id], references: [id])
+  inventoryRequest     InventoryRequest @relation(fields: [inventory_request_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   approve_status       RequestStatus    @default(PENDING)
   comment              String?
   createdAt            DateTime         @default(now())
