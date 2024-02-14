@@ -108,7 +108,7 @@ const singleTripCostService = async (id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
   const response = await prisma.tripCost.findFirst({
@@ -125,7 +125,7 @@ const updateTripCostService = async (id: string, payload: any) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
   const response = await prisma.tripCost.update({
@@ -143,7 +143,7 @@ const deleteTripCostService = async (id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
   const response = await prisma.tripCost.delete({
