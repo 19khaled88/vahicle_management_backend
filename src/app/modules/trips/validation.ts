@@ -1,30 +1,39 @@
 import { z } from 'zod';
 const createTrip = z.object({
     body: z.object({
-        start_location: z.string({
+        startLocation: z.string({
             required_error: 'Start_location is required'
         }),
-        end_location: z.string({
+        endLocation: z.string({
             required_error: 'End_location is required'
         }),
-        start_time: z.string({
+        startTime: z.string({
             required_error: 'Start_time is required'
         }).transform((value)=>new Date(value)),
-        end_time: z.string({
-            required_error: 'End_time is required'
+        passengerName: z.string({
+            required_error: 'Passenger name is required'
         }).transform((value)=>new Date(value)),
        
-        passenger_count: z.number({
-            required_error: 'Passenger_count is required'
+        passengerPhone: z.string({
+            required_error: 'Passenger phone is required'
         }),       
-        trip_rent: z.number({
-            required_error: 'Expense is required'
+        passengerCount: z.number({
+            required_error: 'Passenger number is required'
         }),       
-        vehicle_id: z.string({
-            required_error: 'Vehicle is required'
+        status: z.string({
+            required_error: 'Trip status is required'
         }),    
+        tripPeriod: z.string({
+            required_error: 'Trip period is required'
+        }),   
+        tripRent: z.number({
+            required_error: 'Trip rent is required'
+        }),   
+        vehicle_id: z.string({
+            required_error: 'Vehicle id is required'
+        }),   
         driver_id: z.string({
-            required_error: 'Driver is required'
+            required_error: 'Driver id is required'
         }),   
     })
 });

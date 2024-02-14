@@ -73,6 +73,7 @@ const getAllVehicleService = async (
         }
         : { createAt: 'asc' },
     select: {
+      id:true,
       brand:true,
       color:true,
       fuelType:true,

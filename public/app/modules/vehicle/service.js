@@ -71,6 +71,7 @@ const getAllVehicleService = (paginatinOptions, filterOptions) => __awaiter(void
             }
             : { createAt: 'asc' },
         select: {
+            id: true,
             brand: true,
             color: true,
             fuelType: true,
