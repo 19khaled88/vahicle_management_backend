@@ -66,16 +66,45 @@ const getAllTripService = async (
         : { createAt: 'asc' },
     select: {
       id: true,
-      start_location: true,
-      end_location: true,
-      start_time: true,
-      end_time: true,
-      passenger_count: true,
-      trip_rent: true,
+      startLocation: true,
+      endLocation: true,
+      startTime: true,
+      passengerName: true,
+      passengerPhone: true,
+      passengerCount: true,
+      tripRent: true,
+      status: true,
+      tripPeriod: true,
+      vehicle: {
+        select: {
+          id: true,
+          fuelType: true,
+          mileage: true,
+          price:true,
+          purchaseDate:true,
+          seatCapacity:true,
+          tax:true,
+          vehicleType:true,
+          brand: true,
+          color: true,
+          model: true
+        }
+      },
+      driver: {
+        select: {
+          address: true,
+          avatar: true,
+          email:true,
+          experience:true,
+          license_no:true,
+          name:true,
+          nid:true
+        }
+      },
       vehicle_id: true,
       driver_id: true,
-      
-      tripCosts:true,
+
+      tripCosts: true,
       costs: true
     },
 
@@ -99,7 +128,8 @@ const singleTripSerivce = async (id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  console.log(ifExist)
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
   const response = await prisma.trip.findFirst({
@@ -116,7 +146,7 @@ const updateTripService = async (id: string, payload: any) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
   const response = await prisma.trip.update({
@@ -134,7 +164,7 @@ const deleteTripService = async (id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of trip not available')
   }
   const response = await prisma.trip.delete({

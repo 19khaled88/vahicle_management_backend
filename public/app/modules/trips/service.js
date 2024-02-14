@@ -74,12 +74,41 @@ const getAllTripService = (paginatinOptions, filterOptions) => __awaiter(void 0,
             : { createAt: 'asc' },
         select: {
             id: true,
-            start_location: true,
-            end_location: true,
-            start_time: true,
-            end_time: true,
-            passenger_count: true,
-            trip_rent: true,
+            startLocation: true,
+            endLocation: true,
+            startTime: true,
+            passengerName: true,
+            passengerPhone: true,
+            passengerCount: true,
+            tripRent: true,
+            status: true,
+            tripPeriod: true,
+            vehicle: {
+                select: {
+                    id: true,
+                    fuelType: true,
+                    mileage: true,
+                    price: true,
+                    purchaseDate: true,
+                    seatCapacity: true,
+                    tax: true,
+                    vehicleType: true,
+                    brand: true,
+                    color: true,
+                    model: true
+                }
+            },
+            driver: {
+                select: {
+                    address: true,
+                    avatar: true,
+                    email: true,
+                    experience: true,
+                    license_no: true,
+                    name: true,
+                    nid: true
+                }
+            },
             vehicle_id: true,
             driver_id: true,
             tripCosts: true,
@@ -102,7 +131,8 @@ const singleTripSerivce = (id) => __awaiter(void 0, void 0, void 0, function* ()
             id: id
         }
     });
-    if (ifExist) {
+    console.log(ifExist);
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
     const response = yield prisma.trip.findFirst({
@@ -118,7 +148,7 @@ const updateTripService = (id, payload) => __awaiter(void 0, void 0, void 0, fun
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
     const response = yield prisma.trip.update({
@@ -135,7 +165,7 @@ const deleteTripService = (id) => __awaiter(void 0, void 0, void 0, function* ()
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
     const response = yield prisma.trip.delete({

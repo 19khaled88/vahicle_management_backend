@@ -4,29 +4,38 @@ exports.tripValidation = void 0;
 const zod_1 = require("zod");
 const createTrip = zod_1.z.object({
     body: zod_1.z.object({
-        start_location: zod_1.z.string({
+        startLocation: zod_1.z.string({
             required_error: 'Start_location is required'
         }),
-        end_location: zod_1.z.string({
+        endLocation: zod_1.z.string({
             required_error: 'End_location is required'
         }),
-        start_time: zod_1.z.string({
+        startTime: zod_1.z.string({
             required_error: 'Start_time is required'
         }).transform((value) => new Date(value)),
-        end_time: zod_1.z.string({
-            required_error: 'End_time is required'
+        passengerName: zod_1.z.string({
+            required_error: 'Passenger name is required'
         }).transform((value) => new Date(value)),
-        passenger_count: zod_1.z.number({
-            required_error: 'Passenger_count is required'
+        passengerPhone: zod_1.z.string({
+            required_error: 'Passenger phone is required'
         }),
-        trip_rent: zod_1.z.number({
-            required_error: 'Expense is required'
+        passengerCount: zod_1.z.number({
+            required_error: 'Passenger number is required'
+        }),
+        status: zod_1.z.string({
+            required_error: 'Trip status is required'
+        }),
+        tripPeriod: zod_1.z.string({
+            required_error: 'Trip period is required'
+        }),
+        tripRent: zod_1.z.number({
+            required_error: 'Trip rent is required'
         }),
         vehicle_id: zod_1.z.string({
-            required_error: 'Vehicle is required'
+            required_error: 'Vehicle id is required'
         }),
         driver_id: zod_1.z.string({
-            required_error: 'Driver is required'
+            required_error: 'Driver id is required'
         }),
     })
 });
