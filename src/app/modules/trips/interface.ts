@@ -1,4 +1,4 @@
-export const trip_fields_constant = ['vehicle_id', 'start_location', 'end_location', 'start_time', 'end_time']
+export const trip_fields_constant = ['vehicle_id', 'startLocation', 'endLocation', 'startTime', 'passengerPhone','status']
 // export const trip_fields_constant = ["searchTerm",'vehicle_id', 'user_id', 'start_location', 'end_location', 'start_time', 'end_time']
 
 
@@ -34,12 +34,17 @@ type Vehicle ={
 
 export type ITripResponse = {
         id: string,
-        start_location: String,
-        end_location: String,
-        start_time: Date,
-        end_time: Date,
-        passenger_count: number,
-        trip_rent: number,
+        startLocation: string,
+        endLocation: string,
+        startTime: Date,
+        passengerName:string,
+        passengerPhone:string,
+        passengerCount: number,
+        tripRent: number,
+        status:string,
+        tripPeriod:string,
+        vehicle_id: string,
+        driver_id: string,
        
         createAt?: string,
         updatedAt?: string,
@@ -48,3 +53,4 @@ export type ITripResponse = {
        
         costs?: Cost[]
 }
+

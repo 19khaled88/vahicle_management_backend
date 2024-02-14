@@ -36,6 +36,7 @@ enum IncomeType {
 // User model
 model User {
   id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  user_id   String?
   name      String
   email     String       @unique
   password  String
@@ -97,15 +98,18 @@ model Vehicle {
 
 // Trip model
 model Trip {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  start_location  String
-  end_location    String
-  start_time      DateTime
-  end_time        DateTime
-  passenger_count Int
-  trip_rent       Float
-  createAt        DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  startLocation  String
+  endLocation    String
+  startTime      DateTime
+  passengerName  String
+  passengerPhone String
+  passengerCount Int
+  status         TripStatus @default(UPCOMMING)
+  tripPeriod     String
+  tripRent       Float
+  createAt       DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 
   //relationships 
   vehicle_id String     @db.ObjectId
@@ -270,16 +274,18 @@ model Manager {
 
 // Driver model
 model Driver {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  email      String @unique
-  phone      String
-  avatar     String
-  experience String
-  nid        String
-  license_no String
-  address    String
-
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  user_id       String?
+  email         String         @unique
+  phone         String
+  avatar        String
+  experience    String
+  password      String         @default("12345678")
+  role          RoleEnumType   @default(DRIVER)
+  nid           String
+  license_no    String
+  address       String
   createAt      DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   trips         Trip[]
@@ -392,6 +398,13 @@ enum FuelType {
   Diesel
   Electric
   Hybrid
+}
+
+//trip status 
+enum TripStatus {
+  PENDING
+  COMPLETED
+  UPCOMMING
 }
 
 enum SalaryProcess {
