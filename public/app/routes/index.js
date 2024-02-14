@@ -17,6 +17,7 @@ const inventoryRequest_route_1 = require("../modules/InventoryRequest/inventoryR
 const manageRequest_route_1 = require("../modules/MangeRequest/manageRequest.route");
 const route_7 = require("../modules/manage_fuel/route");
 const route_8 = require("../modules/inventory/route");
+const route_9 = require("../modules/specialApi/route");
 const rootRoute = express_1.default.Router();
 const ModuleRoute = [
     {
@@ -70,6 +71,10 @@ const ModuleRoute = [
     {
         path: '/inventory',
         routes: route_8.InventoryRouter
+    },
+    {
+        path: '/vehicle-driver',
+        routes: route_9.SpecialRouter
     }
 ];
 ModuleRoute.forEach(routes => rootRoute.use(routes.path, routes.routes));
