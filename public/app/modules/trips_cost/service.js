@@ -111,7 +111,7 @@ const singleTripCostService = (id) => __awaiter(void 0, void 0, void 0, function
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
     const response = yield prisma.tripCost.findFirst({
@@ -127,7 +127,7 @@ const updateTripCostService = (id, payload) => __awaiter(void 0, void 0, void 0,
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
     const response = yield prisma.tripCost.update({
@@ -144,7 +144,7 @@ const deleteTripCostService = (id) => __awaiter(void 0, void 0, void 0, function
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of trip not available');
     }
     const response = yield prisma.tripCost.delete({
