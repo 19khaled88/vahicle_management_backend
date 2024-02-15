@@ -62,8 +62,68 @@ const allUserControler = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next(error);
     }
 });
+const createController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield service_1.AuthServices.creatUser(req.body);
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'User created successfully',
+            data: response
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const authenticateController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield service_1.AuthServices.authenticate(req.body);
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Authenticated successful',
+            data: response
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const manageRoleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield service_1.AuthServices.manageRole(req.params.id, req.body);
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Role changed successfully',
+            data: response
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const deleteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield service_1.AuthServices.deleteService(req.params.id);
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'User deleted successfully',
+            data: response
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 exports.authControllers = {
     loginController,
     registerController,
-    allUserControler
+    allUserControler,
+    createController,
+    authenticateController,
+    manageRoleController,
+    deleteController
 };

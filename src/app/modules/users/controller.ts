@@ -51,8 +51,68 @@ const allUserControler = async(req:Request,res:Response,next:NextFunction)=>{
     }
 }
 
+const createController=async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+        const response = await AuthServices.creatUser(req.body)
+        sendResponse(res,{
+            statusCode:httpStatus.OK,
+            success:true,
+            message:'User created successfully',
+            data:response
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+const authenticateController=async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+        const response = await AuthServices.authenticate(req.body)
+        sendResponse(res,{
+            statusCode:httpStatus.OK,
+            success:true,
+            message:'Authenticated successful',
+            data:response
+        })
+       } catch (error) {
+        next(error)
+       }
+}
+
+const manageRoleController=async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+        const response = await AuthServices.manageRole(req.params.id,req.body)
+        sendResponse(res,{
+            statusCode:httpStatus.OK,
+            success:true,
+            message:'Role changed successfully',
+            data:response
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+const deleteController=async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+        const response = await AuthServices.deleteService(req.params.id)
+        sendResponse(res,{
+            statusCode:httpStatus.OK,
+            success:true,
+            message:'User deleted successfully',
+            data:response
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const authControllers = {
     loginController,
     registerController,
-    allUserControler
+    allUserControler,
+    createController,
+    authenticateController,
+    manageRoleController,
+    deleteController
 }
