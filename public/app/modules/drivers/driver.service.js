@@ -24,23 +24,81 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DriverService = void 0;
-const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
-const driver_constant_1 = require("./driver.constant");
+const date_fns_1 = require("date-fns");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
+const hashPass_1 = require("../../../helpers/hashPass");
+const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+const prisma_1 = __importDefault(require("../../../shared/prisma"));
+const driver_constant_1 = require("./driver.constant");
+// const insertIntoDB = async (data: Driver): Promise<Driver> => {
+//   const response = await prisma.$transaction(async transactionClient => {
+//     const ifExist = await prisma.driver.findFirst({
+//       where: {
+//         email: data.email
+//       }
+//     })
+//     if (ifExist) {
+//       throw new ApiError(400, 'Data with the same email already exists')
+//     }
+//     //Get the current year
+//     const currentYear = format(new Date(), 'yyyy');
+//     // Find the user with the highest user id number
+//     const lastUser = await prisma.driver.findFirst({
+//       orderBy: {
+//         user_id: 'desc',
+//       },
+//     });
+//     // Extract the user id number and increment it by one
+//     const lastUserIdNumber = lastUser && lastUser.user_id ? parseInt(lastUser.user_id.split('-')[2]) : 0;
+//     const nextUserIdNumber = lastUserIdNumber + 1;
+//     // Generate the user_id
+//     const userId = `VMSD-${currentYear}-${nextUserIdNumber}`;
+//     const result = await prisma.driver.create({
+//       ...data,
+//       user_id:userId
+//     });
+//     return result;
+//   })
+//   return response
+// };
 const insertIntoDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma_1.default.driver.findFirst({
-        where: {
-            email: data.email
+    const response = yield prisma_1.default.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const ifExist = yield transactionClient.driver.findFirst({
+            where: {
+                email: data.email
+            }
+        });
+        if (ifExist) {
+            throw new ApiError_1.default(400, 'This driver with same email exist');
         }
-    });
-    if (ifExist) {
-        throw new ApiError_1.default(400, 'data with the same mail exist');
-    }
-    const result = yield prisma_1.default.driver.create({
-        data,
-    });
-    return result;
+        // Get the current year
+        const currentYear = (0, date_fns_1.format)(new Date(), 'yyyy');
+        // Query the database to find the last user and extract the user id number
+        const lastUser = yield transactionClient.driver.findFirst({
+            orderBy: {
+                user_id: 'desc', // Order by user_id in descending order to get the last user
+            },
+        });
+        // Extract the user id number and increment it by one
+        let nextUserIdNumber = 1; // Default to 1 if there are no users yet
+        if (lastUser && lastUser.user_id != null) {
+            const lastUserIdParts = lastUser.user_id.split('-');
+            const lastUserIdNumber = lastUserIdParts[lastUserIdParts.length - 1];
+            const afterFistFourDigits = parseInt(lastUserIdNumber.substring(4));
+            nextUserIdNumber = afterFistFourDigits + 1;
+        }
+        // Generate the new user_id by combining the current year and the incremented user id number
+        const userId = `VMSD-${currentYear}${nextUserIdNumber}`;
+        //hash password
+        const Hashed = yield (0, hashPass_1.hashPassword)('12345678');
+        data.password = Hashed;
+        // Create the driver with the generated user_id
+        const result = yield transactionClient.driver.create({
+            data: Object.assign(Object.assign({}, data), { password: Hashed, user_id: userId }),
+        });
+        return result;
+    }));
+    return response;
 });
 const getAllFromDB = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
     const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(options);
@@ -91,6 +149,14 @@ const getAllFromDB = (filters, options) => __awaiter(void 0, void 0, void 0, fun
     };
 });
 const getByIdFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma_1.default.driver.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This user not exist');
+    }
     const result = yield prisma_1.default.driver.findUnique({
         where: {
             id,
@@ -99,6 +165,14 @@ const getByIdFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateOneInDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma_1.default.driver.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This user not exist');
+    }
     const result = yield prisma_1.default.driver.update({
         where: {
             id,
@@ -108,12 +182,24 @@ const updateOneInDB = (id, payload) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 const deleteByIdFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma_1.default.driver.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This user not exist');
+    }
     const result = yield prisma_1.default.driver.delete({
         where: {
             id,
         },
     });
     return result;
+});
+const upComingTrip = () => __awaiter(void 0, void 0, void 0, function* () {
+});
+const tripHistory = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.DriverService = {
     insertIntoDB,

@@ -175,10 +175,26 @@ const deleteTripService = (id) => __awaiter(void 0, void 0, void 0, function* ()
     });
     return response;
 });
+const upcommingTrip = () => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const currentDate = new Date().toISOString();
+        const result = transactionClient.trip.findMany({
+            where: {
+                startTime: {
+                    gt: currentDate
+                }
+            }
+        });
+        return result;
+    }));
+    console.log(response);
+    return response;
+});
 exports.TripServices = {
     createService,
     getAllTripService,
     singleTripSerivce,
     updateTripService,
-    deleteTripService
+    deleteTripService,
+    upcommingTrip
 };

@@ -175,7 +175,22 @@ const deleteTripService = async (id: string) => {
   return response
 }
 
-
+const upcommingTrip = async()=>{
+  const response = await prisma.$transaction(async transactionClient=>{
+    const currentDate = new Date().toISOString();
+    const result = transactionClient.trip.findMany({
+      where:{
+        startTime:{
+          gt: currentDate
+        }
+      }
+    })
+    
+    return result
+  })
+  console.log(response)
+  return response
+}
 
 
 
@@ -184,5 +199,6 @@ export const TripServices = {
   getAllTripService,
   singleTripSerivce,
   updateTripService,
-  deleteTripService
+  deleteTripService,
+  upcommingTrip
 }

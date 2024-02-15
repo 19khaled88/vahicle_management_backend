@@ -28,6 +28,7 @@ const client_1 = require("@prisma/client");
 const hashPass_1 = require("../../../helpers/hashPass");
 const jwtHelpes_1 = require("../../../helpers/jwtHelpes");
 const config_1 = __importDefault(require("../../../config"));
+const date_fns_1 = require("date-fns");
 const ApiError_1 = __importDefault(require("../../../error/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
@@ -57,6 +58,49 @@ const loginService = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     }
     else {
         throw new ApiError_1.default(http_status_1.default.CONFLICT, 'Password not match or invalid');
+    }
+});
+const authenticate = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const user_id_first_part = payload.user_id.split('-');
+    if (user_id_first_part[0] === 'VMSD') {
+        const isExist = yield prisma.driver.findFirst({
+            where: {
+                user_id: payload.user_id
+            }
+        });
+        if (!isExist) {
+            throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'This user not found');
+        }
+        if (payload.password === undefined) {
+            throw new ApiError_1.default(http_status_1.default.NO_CONTENT, 'password not given');
+        }
+        if (isExist !== null && payload.password !== undefined && (yield (0, hashPass_1.comparePasswords)(payload.password, isExist.password))) {
+            const data = { id: isExist.id, role: isExist.role, user_id: isExist.user_id, email: isExist.email };
+            const accessToken = jwtHelpes_1.JwtHelpers.createToken(data, config_1.default.jwt.accessToken, config_1.default.jwt.accessTokenExpiresIn);
+            return {
+                accessToken
+            };
+        }
+    }
+    else if (user_id_first_part[0] === 'VMSM' || user_id_first_part[0] === 'VMSU' || user_id_first_part[0] === 'VMSA') {
+        const isExist = yield prisma.user.findFirst({
+            where: {
+                user_id: payload.user_id
+            }
+        });
+        if (!isExist) {
+            throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'This user not found');
+        }
+        if (payload.password === undefined) {
+            throw new ApiError_1.default(http_status_1.default.NO_CONTENT, 'password not given');
+        }
+        if (isExist !== null && payload.password !== undefined && (yield (0, hashPass_1.comparePasswords)(payload.password, isExist.password))) {
+            const data = { id: isExist.id, role: isExist.role, user_id: isExist.user_id, email: isExist.email };
+            const accessToken = jwtHelpes_1.JwtHelpers.createToken(data, config_1.default.jwt.accessToken, config_1.default.jwt.accessTokenExpiresIn);
+            return {
+                accessToken
+            };
+        }
     }
 });
 const registerService = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -89,6 +133,64 @@ const registerService = (payload) => __awaiter(void 0, void 0, void 0, function*
     return {
         accessToken
     };
+});
+const creatUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const isExist = yield transactionClient.user.findFirst({
+            where: {
+                email: payload.email
+            }
+        });
+        if (isExist) {
+            throw new ApiError_1.default(http_status_1.default.CONFLICT, 'This user already exist in our database');
+        }
+        // Get the current year
+        const currentYear = (0, date_fns_1.format)(new Date(), 'yyyy');
+        // Query the database to find the last user and extract the user id number
+        const lastUser = yield transactionClient.user.findFirst({
+            orderBy: {
+                user_id: 'desc', // Order by user_id in descending order to get the last user
+            },
+        });
+        // Extract the user id number and increment it by one
+        let nextUserIdNumber = 1; // Default to 1 if there are no users yet
+        if (lastUser && lastUser.user_id != null) {
+            const lastUserIdParts = lastUser.user_id.split('-');
+            const lastUserIdNumber = lastUserIdParts[lastUserIdParts.length - 1];
+            const afterFistFourDigits = parseInt(lastUserIdNumber.substring(4));
+            nextUserIdNumber = afterFistFourDigits + 1;
+        }
+        // Generate the new user_id by combining the current year and the incremented user id number
+        const userId = `VMSU-${currentYear}${nextUserIdNumber}`;
+        //hash password
+        const Hashed = yield (0, hashPass_1.hashPassword)('12345678');
+        // Create the driver with the generated user_id
+        const result = yield transactionClient.user.create({
+            data: Object.assign(Object.assign({}, payload), { password: Hashed, user_id: userId }),
+        });
+        return result;
+    }));
+    return response;
+});
+const manageRole = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const ifExist = yield transactionClient.user.findFirst({
+            where: {
+                id: id
+            }
+        });
+        if (!ifExist) {
+            throw new ApiError_1.default(400, 'This user not found');
+        }
+        const result = yield transactionClient.user.update({
+            where: {
+                id: id
+            },
+            data: payload
+        });
+        return result;
+    }));
+    return response;
 });
 const getAllService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
@@ -148,8 +250,28 @@ const getAllService = (paginatinOptions, filterOptions) => __awaiter(void 0, voi
         data: result
     };
 });
+const deleteService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const ifExist = yield prisma.user.findFirst({
+        where: {
+            id: id
+        }
+    });
+    if (!ifExist) {
+        throw new ApiError_1.default(400, 'This user not found');
+    }
+    const result = yield prisma.user.delete({
+        where: {
+            id: id
+        }
+    });
+    return result;
+});
 exports.AuthServices = {
     loginService,
     registerService,
-    getAllService
+    getAllService,
+    authenticate,
+    creatUser,
+    manageRole,
+    deleteService
 };

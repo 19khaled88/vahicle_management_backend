@@ -79,6 +79,20 @@ const updateTripController = async (req: Request, res: Response, next: NextFunct
     }
 }
 
+const upcomingTripController=async(req: Request, res: Response, next: NextFunction)=>{
+    try {
+        const response = await TripServices.upcommingTrip()
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: 'Upcoming trips retrieved successfully',
+            data: response
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 
 export const tripControllers = {
@@ -86,5 +100,6 @@ export const tripControllers = {
     getAllController,
     singleTripController,
     deleteTripController,
-    updateTripController
+    updateTripController,
+    upcomingTripController
 }
