@@ -90,10 +90,25 @@ const updateTripController = (req, res, next) => __awaiter(void 0, void 0, void 
         next(error);
     }
 });
+const upcomingTripController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield service_1.TripServices.upcommingTrip();
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Upcoming trips retrieved successfully',
+            data: response
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 exports.tripControllers = {
     createController,
     getAllController,
     singleTripController,
     deleteTripController,
-    updateTripController
+    updateTripController,
+    upcomingTripController
 };
