@@ -34,13 +34,7 @@ const createOfficeCostController = (req, res, next) => __awaiter(void 0, void 0,
 });
 const getAllOfficeCostController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const filterOptions = (0, pick_1.default)(req.query, [
-            " cost_name ",
-            " description",
-            "amount  ",
-            "createdAt",
-            "updatedAt",
-        ]);
+        const filterOptions = (0, pick_1.default)(req.query, ["cost_name", "description", "amount", "createdAt", "updatedAt",]);
         const paginationOptions = (0, pick_1.default)(req.query, paginationOptions_1.paginationOptionFields);
         const response = yield service_1.officeCostService.getAllOfficeCosService(paginationOptions, filterOptions);
         return (0, sendResponse_1.default)(res, {
