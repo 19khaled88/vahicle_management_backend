@@ -83,7 +83,7 @@ const getSingleInventoryRequestService = async (id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of manage request not available')
   }
   const result = await prisma.inventoryRequest.findUnique({
@@ -100,7 +100,7 @@ const updateInventoryRequestService = async (data: any, id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of manage request not available')
   }
   const result = await prisma.inventoryRequest.update({
@@ -118,7 +118,7 @@ const DeleteInventoryRequestService = async (id: string) => {
       id: id
     }
   })
-  if (ifExist) {
+  if (!ifExist) {
     throw new ApiError(400, 'This kind of manage request not available')
   }
   const result = await prisma.inventoryRequest.delete({

@@ -90,7 +90,7 @@ const getSingleInventoryRequestService = (id) => __awaiter(void 0, void 0, void 
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of manage request not available');
     }
     const result = yield prisma.inventoryRequest.findUnique({
@@ -106,7 +106,7 @@ const updateInventoryRequestService = (data, id) => __awaiter(void 0, void 0, vo
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of manage request not available');
     }
     const result = yield prisma.inventoryRequest.update({
@@ -123,7 +123,7 @@ const DeleteInventoryRequestService = (id) => __awaiter(void 0, void 0, void 0, 
             id: id
         }
     });
-    if (ifExist) {
+    if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of manage request not available');
     }
     const result = yield prisma.inventoryRequest.delete({
