@@ -232,25 +232,19 @@ const DeleteAccessoryService = async (id: string) => {
       })
       return res
     }
-
-    console.log(deleteAccessory, findInteventory)
+    else if (findInteventory && deleteAccessory.quantity === findInteventory.quantity) {
+      const res = await prisma.inventory.delete({
+        where: {
+          id: findInteventory.id
+        }
+      })
+      return res
+    } else if (findInteventory && deleteAccessory.quantity > findInteventory.quantity) {
+      return null
+    }
 
   })
 
-
-
-
-
-  //else if(findInteventory && deleteAccessory.quantity === findInteventory.quantity){
-  //   const res = await prisma.inventory.delete({
-  //     where:{
-  //       id:findInteventory.id
-  //     }
-  //   })
-  //   return res
-  //  } else if(findInteventory && deleteAccessory.quantity > findInteventory.quantity){
-  //   return null
-  //  }
   return response;
 };
 
