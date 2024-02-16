@@ -231,18 +231,18 @@ const DeleteAccessoryService = (id) => __awaiter(void 0, void 0, void 0, functio
             });
             return res;
         }
-        console.log(deleteAccessory, findInteventory);
+        else if (findInteventory && deleteAccessory.quantity === findInteventory.quantity) {
+            const res = yield prisma.inventory.delete({
+                where: {
+                    id: findInteventory.id
+                }
+            });
+            return res;
+        }
+        else if (findInteventory && deleteAccessory.quantity > findInteventory.quantity) {
+            return null;
+        }
     }));
-    //else if(findInteventory && deleteAccessory.quantity === findInteventory.quantity){
-    //   const res = await prisma.inventory.delete({
-    //     where:{
-    //       id:findInteventory.id
-    //     }
-    //   })
-    //   return res
-    //  } else if(findInteventory && deleteAccessory.quantity > findInteventory.quantity){
-    //   return null
-    //  }
     return response;
 });
 exports.accessoryService = {
