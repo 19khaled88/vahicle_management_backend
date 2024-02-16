@@ -221,26 +221,25 @@ const DeleteAccessoryService = (id) => __awaiter(void 0, void 0, void 0, functio
             name: deleteAccessory.accessory_name
         }
     });
-    if (findInteventory && deleteAccessory.quantity < (findInteventory === null || findInteventory === void 0 ? void 0 : findInteventory.quantity)) {
-        const res = yield prisma.inventory.update({
-            where: {
-                id: findInteventory.id
-            },
-            data: { quantity: (findInteventory.quantity - deleteAccessory.quantity) }
-        });
-        return res;
-    }
-    else if (findInteventory && deleteAccessory.quantity === findInteventory.quantity) {
-        const res = yield prisma.inventory.delete({
-            where: {
-                id: findInteventory.id
-            }
-        });
-        return res;
-    }
-    else if (findInteventory && deleteAccessory.quantity > findInteventory.quantity) {
-        return null;
-    }
+    console.log(deleteAccessory, findInteventory);
+    //  if(findInteventory && deleteAccessory.quantity < findInteventory?.quantity){
+    //   const res = await prisma.inventory.update({
+    //     where:{
+    //       id:findInteventory.id
+    //     },
+    //     data:{quantity:(findInteventory.quantity - deleteAccessory.quantity)}
+    //   })
+    //   return res
+    //  }else if(findInteventory && deleteAccessory.quantity === findInteventory.quantity){
+    //   const res = await prisma.inventory.delete({
+    //     where:{
+    //       id:findInteventory.id
+    //     }
+    //   })
+    //   return res
+    //  } else if(findInteventory && deleteAccessory.quantity > findInteventory.quantity){
+    //   return null
+    //  }
     return deleteAccessory;
 });
 exports.accessoryService = {
