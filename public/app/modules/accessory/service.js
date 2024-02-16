@@ -203,34 +203,37 @@ const updateAccessoryService = (data, id) => __awaiter(void 0, void 0, void 0, f
     return result;
 });
 const DeleteAccessoryService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const ifExist = yield prisma.accessory.findFirst({
-        where: {
-            id: id
+    const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const ifExist = yield transactionClient.accessory.findFirst({
+            where: {
+                id: id
+            }
+        });
+        if (!ifExist) {
+            throw new ApiError_1.default(400, 'This kind of accessory data not available');
         }
-    });
-    if (!ifExist) {
-        throw new ApiError_1.default(400, 'This kind of accessory data not available');
-    }
-    const deleteAccessory = yield prisma.accessory.delete({
-        where: {
-            id,
-        },
-    });
-    const findInteventory = yield prisma.inventory.findFirst({
-        where: {
-            name: deleteAccessory.accessory_name
+        const deleteAccessory = yield transactionClient.accessory.delete({
+            where: {
+                id,
+            },
+        });
+        const findInteventory = yield transactionClient.inventory.findFirst({
+            where: {
+                name: deleteAccessory.accessory_name
+            }
+        });
+        if (findInteventory && deleteAccessory.quantity < (findInteventory === null || findInteventory === void 0 ? void 0 : findInteventory.quantity)) {
+            const res = yield transactionClient.inventory.update({
+                where: {
+                    id: findInteventory.id
+                },
+                data: { quantity: (findInteventory.quantity - deleteAccessory.quantity) }
+            });
+            return res;
         }
-    });
-    console.log(deleteAccessory, findInteventory);
-    //  if(findInteventory && deleteAccessory.quantity < findInteventory?.quantity){
-    //   const res = await prisma.inventory.update({
-    //     where:{
-    //       id:findInteventory.id
-    //     },
-    //     data:{quantity:(findInteventory.quantity - deleteAccessory.quantity)}
-    //   })
-    //   return res
-    //  }else if(findInteventory && deleteAccessory.quantity === findInteventory.quantity){
+        console.log(deleteAccessory, findInteventory);
+    }));
+    //else if(findInteventory && deleteAccessory.quantity === findInteventory.quantity){
     //   const res = await prisma.inventory.delete({
     //     where:{
     //       id:findInteventory.id
@@ -240,7 +243,7 @@ const DeleteAccessoryService = (id) => __awaiter(void 0, void 0, void 0, functio
     //  } else if(findInteventory && deleteAccessory.quantity > findInteventory.quantity){
     //   return null
     //  }
-    return deleteAccessory;
+    return response;
 });
 exports.accessoryService = {
     createAccessoryService,
