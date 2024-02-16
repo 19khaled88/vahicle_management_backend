@@ -94,7 +94,8 @@ const getSingleInventoryRequestService = async (id: string) => {
   return result;
 };
 
-const updateInventoryRequestService = async (data: any, id: string) => {
+const updateInventoryRequestService = async ( id: string,data: any) => {
+  console.log(data)
   const ifExist = await prisma.inventoryRequest.findFirst({
     where: {
       id: id
@@ -103,11 +104,12 @@ const updateInventoryRequestService = async (data: any, id: string) => {
   if (!ifExist) {
     throw new ApiError(400, 'This kind of manage request not available')
   }
+ 
   const result = await prisma.inventoryRequest.update({
     where: {
       id: id,
     },
-    data,
+    data:data,
   });
   return result;
 };

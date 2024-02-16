@@ -100,7 +100,8 @@ const getSingleInventoryRequestService = (id) => __awaiter(void 0, void 0, void 
     });
     return result;
 });
-const updateInventoryRequestService = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
+const updateInventoryRequestService = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(data);
     const ifExist = yield prisma.inventoryRequest.findFirst({
         where: {
             id: id
@@ -113,7 +114,7 @@ const updateInventoryRequestService = (data, id) => __awaiter(void 0, void 0, vo
         where: {
             id: id,
         },
-        data,
+        data: data,
     });
     return result;
 });
