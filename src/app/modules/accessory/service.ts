@@ -21,12 +21,14 @@ const createAccessoryService = async (payload: any) => {
     })
 
     if(result && ifExist){
-      const res = await transactionClient.inventory.create({
+      const res = await transactionClient.inventory.update({
+        where:{
+          id:ifExist.id
+        },
         data: {
-          name:result.accessory_name,
-          accessory_id:result.id,
+         
           quantity:(ifExist?.quantity + result.quantity ),
-          description:result.description
+          
         }
       })
       return res
@@ -162,6 +164,7 @@ const getAllAccessoryService = async (
     data: result,
   };
 };
+
 const getSingleAccessoryService = async (id: string) => {
   const ifExist = await prisma.accessory.findFirst({
     where: {
@@ -207,12 +210,35 @@ const DeleteAccessoryService = async (id: string) => {
   if (!ifExist) {
     throw new ApiError(400, 'This kind of accessory data not available')
   }
-  const result = await prisma.accessory.delete({
+  const deleteAccessory = await prisma.accessory.delete({
     where: {
       id,
     },
   });
-  return result;
+ const findInteventory = await prisma.inventory.findFirst({
+    where:{
+      name:deleteAccessory.accessory_name
+    }
+ })
+ if(findInteventory && deleteAccessory.quantity < findInteventory?.quantity){
+  const res = await prisma.inventory.update({
+    where:{
+      id:findInteventory.id
+    },
+    data:{quantity:(findInteventory.quantity - deleteAccessory.quantity)}
+  })
+  return res
+ }else if(findInteventory && deleteAccessory.quantity === findInteventory.quantity){
+  const res = await prisma.inventory.delete({
+    where:{
+      id:findInteventory.id
+    }
+  })
+  return res
+ } else if(findInteventory && deleteAccessory.quantity > findInteventory.quantity){
+  return null
+ }
+  return deleteAccessory;
 };
 
 export const accessoryService = {
