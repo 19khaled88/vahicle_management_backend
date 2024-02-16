@@ -207,7 +207,7 @@ model Inventory {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   accessory_id String    @db.ObjectId
-  accessory    Accessory @relation(fields: [accessory_id], references: [id])
+  accessory    Accessory @relation(fields: [accessory_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quantity     Int
   description  String?
   createAt     DateTime  @default(now())
