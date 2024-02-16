@@ -40,12 +40,12 @@ const createAccessoryService = (payload) => __awaiter(void 0, void 0, void 0, fu
             }
         });
         if (result && ifExist) {
-            const res = yield transactionClient.inventory.create({
+            const res = yield transactionClient.inventory.update({
+                where: {
+                    id: ifExist.id
+                },
                 data: {
-                    name: result.accessory_name,
-                    accessory_id: result.id,
                     quantity: ((ifExist === null || ifExist === void 0 ? void 0 : ifExist.quantity) + result.quantity),
-                    description: result.description
                 }
             });
             return res;
@@ -211,12 +211,37 @@ const DeleteAccessoryService = (id) => __awaiter(void 0, void 0, void 0, functio
     if (!ifExist) {
         throw new ApiError_1.default(400, 'This kind of accessory data not available');
     }
-    const result = yield prisma.accessory.delete({
+    const deleteAccessory = yield prisma.accessory.delete({
         where: {
             id,
         },
     });
-    return result;
+    const findInteventory = yield prisma.inventory.findFirst({
+        where: {
+            name: deleteAccessory.accessory_name
+        }
+    });
+    if (findInteventory && deleteAccessory.quantity < (findInteventory === null || findInteventory === void 0 ? void 0 : findInteventory.quantity)) {
+        const res = yield prisma.inventory.update({
+            where: {
+                id: findInteventory.id
+            },
+            data: { quantity: (findInteventory.quantity - deleteAccessory.quantity) }
+        });
+        return res;
+    }
+    else if (findInteventory && deleteAccessory.quantity === findInteventory.quantity) {
+        const res = yield prisma.inventory.delete({
+            where: {
+                id: findInteventory.id
+            }
+        });
+        return res;
+    }
+    else if (findInteventory && deleteAccessory.quantity > findInteventory.quantity) {
+        return null;
+    }
+    return deleteAccessory;
 });
 exports.accessoryService = {
     createAccessoryService,
