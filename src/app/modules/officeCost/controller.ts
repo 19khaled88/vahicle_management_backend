@@ -20,20 +20,10 @@ const createOfficeCostController: RequestHandler = async (req, res, next) => {
 };
 const getAllOfficeCostController: RequestHandler = async (req, res, next) => {
   try {
-    const filterOptions = pick(req.query, [
-      " cost_name ",
-      " description",
-      "amount  ",
-      "createdAt",
-      "updatedAt",
-    ]);
+    const filterOptions = pick(req.query, [ "cost_name", "description", "amount","createdAt","updatedAt",]);
+    const paginationOptions = pick(req.query, paginationOptionFields)
 
-    const paginationOptions = pick(req.query, paginationOptionFields);
-
-    const response = await officeCostService.getAllOfficeCosService(
-      paginationOptions,
-      filterOptions
-    );
+    const response = await officeCostService.getAllOfficeCosService(paginationOptions,filterOptions );
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

@@ -18,4 +18,13 @@ export interface IOfficeCost {
     updatedAt?: Date;
   }
 
+  export type IOfficeCostResponse = {
+    id?: string;
+    cost_name: string;
+    amount: number;
+    description?: string | null;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
 
