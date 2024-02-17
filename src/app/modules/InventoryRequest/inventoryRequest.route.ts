@@ -15,8 +15,10 @@ const router = express.Router()
 
 router.post('/',validateRequest(inventoryRequestValidation.createZodSchema),inventoryRequestControllers.createInventoryRequestController )
 router.get('/',inventoryRequestControllers.getAllInventoryRequestController)
+router.patch('/updateRequest',inventoryRequestControllers.updateInventoryRequestController)
 router.get('/single/:id',inventoryRequestControllers.singleInventoryRequestController)
 router.delete('/delete/:id',inventoryRequestControllers.deleteInventoryRequestController)
 router.patch('/update/:id',inventoryRequestControllers.updateInventoryRequestController)
+
 
 export const inventoryRequestRouter = router
