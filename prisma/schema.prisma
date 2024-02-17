@@ -363,6 +363,8 @@ model Maintenance {
 model InventoryRequest {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   title         String
+  approve_status       RequestStatus    @default(PENDING)
+  comment              String?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   ManageRequest ManageRequest[]

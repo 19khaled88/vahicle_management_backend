@@ -8,8 +8,8 @@ import { manageRequestControllers } from './manageRequest.controller';
 
 const router = express.Router()
 
-router.post('/',validateRequest(manageRequestValidation.createZodSchema),manageRequestControllers.createMangeRequestController)
-router.get('/',manageRequestControllers.getAllIMangeRequestController)
+router.post('/create',validateRequest(manageRequestValidation.createZodSchema),manageRequestControllers.createMangeRequestController)
+router.get('/list',manageRequestControllers.getAllIMangeRequestController)
 router.get('/single/:id',manageRequestControllers.singleManageRequestController)
 router.delete('/delete/:id',manageRequestControllers.deleteMangeRequestController)
 router.patch('/update/:id',manageRequestControllers.updateManageRequestController)
