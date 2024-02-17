@@ -172,11 +172,15 @@ const creatUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     }));
     return response;
 });
-const manageRole = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const manageRole = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield prisma.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        const splited = payload.data.split('/');
+        const userId = splited[0];
+        const updateData = splited[1];
+        console.log(userId, updateData);
         const ifExist = yield transactionClient.user.findFirst({
             where: {
-                id: id
+                id: userId
             }
         });
         if (!ifExist) {
@@ -184,9 +188,9 @@ const manageRole = (id, payload) => __awaiter(void 0, void 0, void 0, function* 
         }
         const result = yield transactionClient.user.update({
             where: {
-                id: id
+                id: userId
             },
-            data: payload
+            data: { role: updateData }
         });
         return result;
     }));
