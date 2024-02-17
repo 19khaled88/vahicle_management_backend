@@ -197,12 +197,17 @@ const creatUser = async (payload: any) => {
 
 
 
-const manageRole = async (id: string, payload: any) => {
+const manageRole = async ( payload: any) => {
   const response = await prisma.$transaction(async transactionClient => {
+    const splited = payload.data.split('/')
+    
+    const userId = splited[0];
+    const updateData = splited[1];
+    console.log(userId,updateData)
 
     const ifExist = await transactionClient.user.findFirst({
       where: {
-        id: id
+        id: userId
       }
     })
 
@@ -212,9 +217,9 @@ const manageRole = async (id: string, payload: any) => {
 
     const result = await transactionClient.user.update({
       where: {
-        id: id
+        id: userId
       },
-      data: payload
+      data: {role:updateData}
     })
     return result
   })

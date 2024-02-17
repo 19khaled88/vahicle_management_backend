@@ -92,7 +92,7 @@ const authenticateController = (req, res, next) => __awaiter(void 0, void 0, voi
 });
 const manageRoleController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield service_1.AuthServices.manageRole(req.params.id, req.body);
+        const response = yield service_1.AuthServices.manageRole(req.body);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,

@@ -81,7 +81,7 @@ const authenticateController=async(req:Request,res:Response,next:NextFunction)=>
 
 const manageRoleController=async(req:Request,res:Response,next:NextFunction)=>{
     try {
-        const response = await AuthServices.manageRole(req.params.id,req.body)
+        const response = await AuthServices.manageRole(req.body)
         sendResponse(res,{
             statusCode:httpStatus.OK,
             success:true,
