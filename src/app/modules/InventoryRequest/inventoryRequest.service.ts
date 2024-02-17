@@ -20,8 +20,8 @@ const createInventoryRequestService = async (payload: any) => {
 };
 
 const getAllInventoryRequestService = async (
-  filterOptions: IFilters,
-  paginatinOptions: IPaginationOptions
+  paginatinOptions: IPaginationOptions,
+  filterOptions: IFilters
 ): Promise<IGenericResponse<any>> => {
   const { searchTerm, ...filterData } = filterOptions;
   const { limit, page, skip } =
@@ -76,6 +76,14 @@ const getAllInventoryRequestService = async (
     data: result,
   };
 };
+
+// const getAllInventoryRequestService = async (
+//   paginatinOptions: IPaginationOptions,
+//   filterOptions: IFilters
+// ) => {
+ 
+ 
+// };
 
 const getSingleInventoryRequestService = async (id: string) => {
   const ifExist = await prisma.inventoryRequest.findFirst({
