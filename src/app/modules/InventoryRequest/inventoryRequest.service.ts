@@ -61,8 +61,8 @@ const getAllInventoryRequestService = async (
     orderBy:
       paginatinOptions.sortBy && paginatinOptions.sortOrder
         ? {
-            [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
-          }
+          [paginatinOptions.sortBy]: paginatinOptions.sortOrder,
+        }
         : { createdAt: "asc" },
     // select: {},
   });
@@ -94,22 +94,22 @@ const getSingleInventoryRequestService = async (id: string) => {
   return result;
 };
 
-const updateInventoryRequestService = async ( id: string,data: any) => {
-  console.log(data)
+const updateInventoryRequestService = async (payload: any) => {
+
   const ifExist = await prisma.inventoryRequest.findFirst({
     where: {
-      id: id
+      id: payload.id
     }
   })
   if (!ifExist) {
     throw new ApiError(400, 'This kind of manage request not available')
   }
- 
+
   const result = await prisma.inventoryRequest.update({
     where: {
-      id: id,
+      id: payload.id,
     },
-    data:data,
+    data: payload.data,
   });
   return result;
 };

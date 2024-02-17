@@ -16,6 +16,7 @@ const invenToryRequest_controller_1 = require("./invenToryRequest.controller");
 const router = express_1.default.Router();
 router.post('/', (0, validateUser_1.default)(inventoryRequest_validation_1.inventoryRequestValidation.createZodSchema), invenToryRequest_controller_1.inventoryRequestControllers.createInventoryRequestController);
 router.get('/', invenToryRequest_controller_1.inventoryRequestControllers.getAllInventoryRequestController);
+router.patch('/updateRequest', invenToryRequest_controller_1.inventoryRequestControllers.updateInventoryRequestController);
 router.get('/single/:id', invenToryRequest_controller_1.inventoryRequestControllers.singleInventoryRequestController);
 router.delete('/delete/:id', invenToryRequest_controller_1.inventoryRequestControllers.deleteInventoryRequestController);
 router.patch('/update/:id', invenToryRequest_controller_1.inventoryRequestControllers.updateInventoryRequestController);
