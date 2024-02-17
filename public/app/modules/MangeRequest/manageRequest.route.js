@@ -9,8 +9,8 @@ const validateUser_1 = __importDefault(require("../../middlewares/validateUser")
 const manageRequest_validation_1 = require("./manageRequest.validation");
 const manageRequest_controller_1 = require("./manageRequest.controller");
 const router = express_1.default.Router();
-router.post('/', (0, validateUser_1.default)(manageRequest_validation_1.manageRequestValidation.createZodSchema), manageRequest_controller_1.manageRequestControllers.createMangeRequestController);
-router.get('/', manageRequest_controller_1.manageRequestControllers.getAllIMangeRequestController);
+router.post('/create', (0, validateUser_1.default)(manageRequest_validation_1.manageRequestValidation.createZodSchema), manageRequest_controller_1.manageRequestControllers.createMangeRequestController);
+router.get('/list', manageRequest_controller_1.manageRequestControllers.getAllIMangeRequestController);
 router.get('/single/:id', manageRequest_controller_1.manageRequestControllers.singleManageRequestController);
 router.delete('/delete/:id', manageRequest_controller_1.manageRequestControllers.deleteMangeRequestController);
 router.patch('/update/:id', manageRequest_controller_1.manageRequestControllers.updateManageRequestController);
