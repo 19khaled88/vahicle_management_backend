@@ -68,7 +68,7 @@ const deleteInventoryRequestController:RequestHandler = async (req, res, next) =
 
 const updateInventoryRequestController:RequestHandler = async (req, res, next) => {
     try {
-        const response = await inventoryRequestService.updateInventoryRequestService(req.params.id, req.body)
+        const response = await inventoryRequestService.updateInventoryRequestService( req.body)
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
@@ -79,6 +79,7 @@ const updateInventoryRequestController:RequestHandler = async (req, res, next) =
         next(error)
     }
 }
+
 
 
 
