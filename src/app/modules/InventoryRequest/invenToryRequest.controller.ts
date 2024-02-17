@@ -22,6 +22,7 @@ const createInventoryRequestController:RequestHandler = async (req, res, next) =
         next(error)
     }
 }
+
 const getAllInventoryRequestController:RequestHandler= async (req, res, next) => {
     try {
         const filterOptions = pick(req.query, ['driver_id', 'status'])

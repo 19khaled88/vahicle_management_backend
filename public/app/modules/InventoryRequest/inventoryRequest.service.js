@@ -35,7 +35,7 @@ const createInventoryRequestService = (payload) => __awaiter(void 0, void 0, voi
     });
     return response;
 });
-const getAllInventoryRequestService = (filterOptions, paginatinOptions) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllInventoryRequestService = (paginatinOptions, filterOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filterOptions, filterData = __rest(filterOptions, ["searchTerm"]);
     const { limit, page, skip } = paginationHelpers_1.paginationHelpers.calculatePagination(paginatinOptions);
     const andConditions = [];
@@ -84,6 +84,11 @@ const getAllInventoryRequestService = (filterOptions, paginatinOptions) => __awa
         data: result,
     };
 });
+// const getAllInventoryRequestService = async (
+//   paginatinOptions: IPaginationOptions,
+//   filterOptions: IFilters
+// ) => {
+// };
 const getSingleInventoryRequestService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const ifExist = yield prisma.inventoryRequest.findFirst({
         where: {
