@@ -212,6 +212,7 @@ const DeleteAccessoryService = async (id: string) => {
       id,
     },
   });
+  console.log(result)
   return result;
 };
 
